@@ -1,0 +1,3 @@
+rootProject.name = "ReflectFun"
+include ':app'
+include ':reflect_core'
