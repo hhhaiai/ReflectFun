@@ -47,11 +47,7 @@ public class Rvoke {
             RLog.e(igone);
         }
         if (Build.VERSION.SDK_INT > 27) {
-            /*
-             * 设置豁免所有hide api
-             * http://androidxref.com/9.0.0_r3/xref/art/test/674-hiddenapi/src-art/Main.java#100
-             * VMRuntime.getRuntime().setHiddenApiExemptions(new String[]{"L"});
-             */
+            //http://androidxref.com/9.0.0_r3/xref/art/test/674-hiddenapi/src-art/Main.java#100
             try {
                 Class<?> vmRuntimeClass = (Class<?>) forName.invoke(null, "dalvik.system.VMRuntime");
                 Method getRuntime = (Method) getDeclaredMethod.invoke(vmRuntimeClass, "getRuntime", null);

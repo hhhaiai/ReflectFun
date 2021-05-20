@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "cn.reflectfun.demo"
         minSdkVersion 16
-        targetSdkVersion 29
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
@@ -56,6 +56,6 @@ tasks.withType(Javadoc) {
 
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
+    implementation files("libs/TestCaseLib.aar")
+    api 'com.qmuiteam:qmui:1.4.0'
 }
