@@ -58,4 +58,7 @@ tasks.withType(Javadoc) {
 dependencies {
     implementation files("libs/TestCaseLib.aar")
     api 'com.qmuiteam:qmui:1.4.0'
+    implementation project(path: ':reflect_core')
+//    implementation 'me.weishu:free_reflection:3.0.1'
+//    implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:2.0'
 }

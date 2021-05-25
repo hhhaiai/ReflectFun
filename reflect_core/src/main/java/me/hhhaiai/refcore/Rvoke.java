@@ -25,6 +25,8 @@ public class Rvoke {
     private static Method getConstructor = null;
     private static Method newInstance = null;
 
+    private static boolean isLog = false;
+
     /********************* get instance begin **************************/
 
     static {
@@ -44,7 +46,9 @@ public class Rvoke {
             getConstructor = Class.class.getDeclaredMethod("getConstructor", Class[].class);
             newInstance = Constructor.class.getDeclaredMethod("newInstance", Object[].class);
         } catch (Throwable igone) {
-            RLog.e(igone);
+            if (isLog) {
+                RLog.e(igone);
+            }
         }
         if (Build.VERSION.SDK_INT > 27) {
             //http://androidxref.com/9.0.0_r3/xref/art/test/674-hiddenapi/src-art/Main.java#100
@@ -55,7 +59,9 @@ public class Rvoke {
                 Object sVmRuntime = getRuntime.invoke(null);
                 setHiddenApiExemptions.invoke(sVmRuntime, new Object[]{new String[]{"L"}});
             } catch (Throwable igone) {
-                RLog.e(igone);
+                if (isLog) {
+                    RLog.e(igone);
+                }
             }
         }
     }
@@ -112,6 +118,14 @@ public class Rvoke {
         return getMethod(getClass(clazzName), methodName, types);
     }
 
+    public static Method getMethod(String clazzName, String methodName) {
+        return getMethod(getClass(clazzName), methodName, new Class<?>[]{});
+    }
+
+    public static Method getMethod(Class clazz, String methodName) {
+        return getMethod(clazz, methodName, new Class<?>[]{});
+    }
+
     public static Method getMethod(Class clazz, String methodName, Class<?>... types) {
         Method method = null;
         try {
@@ -126,7 +140,9 @@ public class Rvoke {
                 method = getMethodB(clazz, methodName, types);
             }
         } catch (Throwable igone) {
-            RLog.e(igone);
+            if (isLog) {
+                RLog.e(igone);
+            }
             if (method == null) {
                 method = getMethodB(clazz, methodName, types);
             }
@@ -143,13 +159,19 @@ public class Rvoke {
             if (method == null) {
                 try {
                     method = clazz.getDeclaredMethod(methodName, parameterTypes);
-                } catch (Throwable e) {
+                } catch (Throwable igone) {
+                    if (isLog) {
+                        RLog.e(igone);
+                    }
                 }
             }
             if (method == null) {
                 try {
                     method = clazz.getMethod(methodName, parameterTypes);
-                } catch (Throwable e) {
+                } catch (Throwable igone) {
+                    if (isLog) {
+                        RLog.e(igone);
+                    }
                 }
             }
             if (method != null) {
@@ -157,7 +179,9 @@ public class Rvoke {
                 return method;
             }
         } catch (Throwable igone) {
-            RLog.e(igone);
+            if (isLog) {
+                RLog.e(igone);
+            }
         }
         return null;
     }
@@ -211,7 +235,9 @@ public class Rvoke {
                 return newInstanceImplB(clazz, types, values);
             }
         } catch (Throwable igone) {
-            RLog.e(igone);
+            if (isLog) {
+                RLog.e(igone);
+            }
             return newInstanceImplB(clazz, types, values);
         }
     }
@@ -222,13 +248,19 @@ public class Rvoke {
 
             try {
                 ctor = clazz.getDeclaredConstructor(types);
-            } catch (Throwable e) {
+            } catch (Throwable igone) {
+                if (isLog) {
+                    RLog.e(igone);
+                }
             }
 
             if (ctor == null) {
                 try {
                     ctor = clazz.getConstructor(types);
-                } catch (Throwable e) {
+                } catch (Throwable igone) {
+                    if (isLog) {
+                        RLog.e(igone);
+                    }
                 }
             }
             if (ctor != null) {
@@ -236,7 +268,9 @@ public class Rvoke {
                 return ctor.newInstance(values);
             }
         } catch (Throwable igone) {
-            RLog.e(igone);
+            if (isLog) {
+                RLog.e(igone);
+            }
         }
         return null;
     }
@@ -258,12 +292,9 @@ public class Rvoke {
 //                result = getClassByf(name);
 //            }
 //        } catch (Throwable igone) {
-//            if (BuildConfig.DEBUG_UTILS) {
-//                ELOG.e(igone);
-//            }
-//            if (BuildConfig.ENABLE_BUG_REPORT) {
-//                BugReportForTest.commitError(igone);
-//            }
+//                    if (isLog) {
+//                        RLog.e(igone);
+//                    }
 //        }
 //
 //        return result;
@@ -309,7 +340,9 @@ public class Rvoke {
                 field.set(o, value);
             }
         } catch (Throwable igone) {
-            RLog.e(igone);
+            if (isLog) {
+                RLog.e(igone);
+            }
         }
     }
 
@@ -320,9 +353,34 @@ public class Rvoke {
                 return field.get(o);
             }
         } catch (Throwable igone) {
-            RLog.e(igone);
+            if (isLog) {
+                RLog.e(igone);
+            }
         }
         return null;
+    }
+
+    public static Field getField(Object o, String fieldName) {
+        if (o == null) {
+            return null;
+        }
+        return getField(o.getClass(), fieldName);
+    }
+
+    public static Field getField(String className, String fieldName) {
+        return getField(getClass(className), fieldName);
+    }
+
+    public static Field getField(Class clazz, String fieldName) {
+        return getUpdateableFieldImpl(clazz, fieldName);
+    }
+
+    public static Field getStaticField(String className, String fieldName) {
+        return getField(getClass(className), fieldName);
+    }
+
+    public static Field getStaticField(Class clazz, String fieldName) {
+        return getUpdateableFieldImpl(clazz, fieldName);
     }
 
     //内部元反射获取变量，无须关注异常，不打印日志
@@ -345,7 +403,9 @@ public class Rvoke {
                 return field;
             }
         } catch (Throwable igone) {
-            RLog.e(igone);
+            if (isLog) {
+                RLog.e(igone);
+            }
             return getFieldImplB(clazz, fieldName);
         }
     }
@@ -361,13 +421,19 @@ public class Rvoke {
             if (field == null) {
                 try {
                     field = clazz.getDeclaredField(fieldName);
-                } catch (Throwable e) {
+                } catch (Throwable igone) {
+                    if (isLog) {
+                        RLog.e(igone);
+                    }
                 }
             }
             if (field == null) {
                 try {
                     field = clazz.getField(fieldName);
-                } catch (Throwable e) {
+                } catch (Throwable igone) {
+                    if (isLog) {
+                        RLog.e(igone);
+                    }
                 }
             }
             if (field != null) {
@@ -375,7 +441,9 @@ public class Rvoke {
                 return field;
             }
         } catch (Throwable igone) {
-            RLog.e(igone);
+            if (isLog) {
+                RLog.e(igone);
+            }
         }
 
         return null;
@@ -404,7 +472,9 @@ public class Rvoke {
                 result = getClassByf(name);
             }
         } catch (Throwable igone) {
-            RLog.e(igone);
+            if (isLog) {
+                RLog.e(igone);
+            }
         }
 
         return result;
@@ -420,7 +490,10 @@ public class Rvoke {
                     } else {
                         return result;
                     }
-                } catch (Throwable e) {
+                } catch (Throwable igone) {
+                    if (isLog) {
+                        RLog.e(igone);
+                    }
                 }
             }
         }
@@ -431,7 +504,9 @@ public class Rvoke {
         try {
             return Class.forName(name);
         } catch (Throwable igone) {
-            RLog.e(igone);
+            if (isLog) {
+                RLog.e(igone);
+            }
         }
         return null;
     }
@@ -440,7 +515,9 @@ public class Rvoke {
         try {
             return (Class) goInvoke(forName, null, name);
         } catch (Throwable igone) {
-            RLog.e(igone);
+            if (isLog) {
+                RLog.e(igone);
+            }
         }
         return null;
     }
@@ -455,12 +532,13 @@ public class Rvoke {
      */
     private static Object goInvoke(Method method, Object obj, Object... argsValue) {
         try {
-//            printMethod(method, obj, argsValue);
             if (method != null) {
                 return method.invoke(obj, argsValue);
             }
         } catch (Throwable igone) {
-            RLog.e(igone);
+            if (isLog) {
+                RLog.e(igone);
+            }
         }
         return null;
     }
@@ -472,7 +550,10 @@ public class Rvoke {
             for (int i = 0; i < argsClassNames.length; i++) {
                 try {
                     argsClass[i] = getClass(argsClassNames[i]);
-                } catch (Throwable e) {
+                } catch (Throwable igone) {
+                    if (isLog) {
+                        RLog.e(igone);
+                    }
                 }
             }
             return argsClass;
@@ -491,7 +572,9 @@ public class Rvoke {
                 return newInstance(dc, types, values);
             }
         } catch (Throwable igone) {
-            RLog.e(igone);
+            if (isLog) {
+                RLog.e(igone);
+            }
         }
         return null;
     }
@@ -510,7 +593,9 @@ public class Rvoke {
                 return (String) fd.get(null);
             }
         } catch (Throwable igone) {
-            RLog.e(igone);
+            if (isLog) {
+                RLog.e(igone);
+            }
         }
         return "";
     }

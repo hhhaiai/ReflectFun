@@ -26,26 +26,42 @@ public class RLog {
     }
 
     public static void v(String info) {
-        Log.println(Log.VERBOSE, TAG, info);
+        println(info, Log.VERBOSE);
     }
 
     public static void d(String info) {
-        Log.println(Log.DEBUG, TAG, info);
+        println(info, Log.DEBUG);
     }
 
     public static void i(String info) {
-        Log.println(Log.INFO, TAG, info);
+        println(info, Log.INFO);
+    }
+
+    public static void i(String tag, Throwable e) {
+        println(tag, Log.getStackTraceString(e), Log.INFO);
+    }
+    public static void i(String tag, String info) {
+        println(tag, info, Log.INFO);
     }
 
     public static void w(String info) {
-        Log.println(Log.WARN, TAG, info);
+        println(info, Log.WARN);
     }
 
+
     public static void e(String info) {
-        Log.println(Log.ERROR, TAG, info);
+        println(info, Log.ERROR);
     }
 
     public static void wtf(String info) {
-        Log.println(Log.ASSERT, TAG, info);
+        println(info, Log.ASSERT);
+    }
+
+    private static void println(String info, int priority) {
+        Log.println(priority, TAG, info);
+    }
+
+    private static void println(String tag, String info, int priority) {
+        Log.println(priority, tag, info);
     }
 }
