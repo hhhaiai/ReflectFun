@@ -11,13 +11,15 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+
+        // if test. need this
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     dexOptions {
@@ -56,4 +58,7 @@ tasks.withType(Javadoc) {
 
 
 dependencies {
+    // 支持测试类所有方法全部调用，挨个展示集成效果
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'junit:junit:4.12'
 }
