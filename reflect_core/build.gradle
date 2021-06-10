@@ -15,14 +15,15 @@ android {
         // if test. need this
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
-//        externalNativeBuild {
-//            cmake {
-//                cppFlags "-std=c++14"
-//            }
-//        }
-//        ndk {
-//            abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64'
-//        }
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++11"
+                arguments '-DANDROID_STL=c++_static'
+            }
+        }
+        ndk {
+            abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64'
+        }
     }
 
     buildTypes {
@@ -30,12 +31,11 @@ android {
             minifyEnabled false
         }
     }
-//    externalNativeBuild {
-//        cmake {
-//            path "CMakeLists.txt"
-//            version "3.6.0"
-//        }
-//    }
+    externalNativeBuild {
+        cmake {
+             path "src/main/cpp/CMakeLists.txt"
+        }
+    }
     dexOptions {
         preDexLibraries false
         maxProcessCount 8

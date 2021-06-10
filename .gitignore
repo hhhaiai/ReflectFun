@@ -36,12 +36,6 @@ local.properties
 
 *.pmd
 sh.exe.stackdump
-
-*/ProguardJson.java
-*/Key.java
 .vs/
 .vscode/
 
-
-doc/*.html
-doc/*.pdf

@@ -5,8 +5,10 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import me.hhhaiai.refcore.Rvoke;
+import me.hhhaiai.refcore.fkhide.NativeHidden;
 
 ;
 
@@ -40,7 +42,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        TextView tv = (TextView) findViewById(R.id.textView);
+        tv.setText(NativeHidden.test());
 
     }
 
