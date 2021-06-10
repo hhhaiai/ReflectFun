@@ -1,7 +1,7 @@
 package cn.reflectfun.demo.cases.hide;
 
 import cn.reflectfun.demo.cases.print.PrintClass;
-import me.hhhaiai.refcore.RLog;
+import me.hhhaiai.refcore.utils.RLog;
 import me.hhhaiai.testcaselib.defcase.ETestCase;
 
 public class HasNoClass extends ETestCase {

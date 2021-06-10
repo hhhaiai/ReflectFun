@@ -4,9 +4,8 @@ import android.bluetooth.BluetoothDevice;
 
 import java.io.PrintWriter;
 
-import cn.reflectfun.demo.cases.print.PrintClass;
 import cn.reflectfun.demo.cases.print.PrintMethod;
-import me.hhhaiai.refcore.RLog;
+import me.hhhaiai.refcore.utils.RLog;
 import me.hhhaiai.testcaselib.defcase.ETestCase;
 
 public class HideClassHideMethod extends ETestCase {

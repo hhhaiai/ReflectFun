@@ -7,7 +7,7 @@ import android.os.Build;
 import android.os.UserManager;
 
 import cn.reflectfun.demo.cases.print.PrintMethod;
-import me.hhhaiai.refcore.RLog;
+import me.hhhaiai.refcore.utils.RLog;
 import me.hhhaiai.testcaselib.defcase.ETestCase;
 
 public class PublicClassHideMethod extends ETestCase {

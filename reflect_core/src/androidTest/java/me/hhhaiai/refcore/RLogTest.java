@@ -2,6 +2,8 @@ package me.hhhaiai.refcore;
 
 import org.junit.Test;
 
+import me.hhhaiai.refcore.utils.RLog;
+
 public class RLogTest {
     @Test
     public void v() {

@@ -1,12 +1,7 @@
 package cn.reflectfun.demo.cases.hide;
 
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.pm.ApplicationInfo;
-
 import cn.reflectfun.demo.cases.print.PrintClass;
-import cn.reflectfun.demo.cases.print.PrintMethod;
-import me.hhhaiai.refcore.RLog;
+import me.hhhaiai.refcore.utils.RLog;
 import me.hhhaiai.testcaselib.defcase.ETestCase;
 
 public class PublicHideClass extends ETestCase {

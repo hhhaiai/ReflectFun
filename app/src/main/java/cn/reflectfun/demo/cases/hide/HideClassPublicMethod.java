@@ -1,11 +1,7 @@
 package cn.reflectfun.demo.cases.hide;
 
-import android.bluetooth.BluetoothDevice;
-
-import java.io.PrintWriter;
-
 import cn.reflectfun.demo.cases.print.PrintMethod;
-import me.hhhaiai.refcore.RLog;
+import me.hhhaiai.refcore.utils.RLog;
 import me.hhhaiai.testcaselib.defcase.ETestCase;
 
 public class HideClassPublicMethod extends ETestCase {

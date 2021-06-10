@@ -1,6 +1,6 @@
 package cn.reflectfun.demo.cases.print;
 
-import me.hhhaiai.refcore.RLog;
+import me.hhhaiai.refcore.utils.RLog;
 import me.hhhaiai.refcore.Rvoke;
 
 /**
