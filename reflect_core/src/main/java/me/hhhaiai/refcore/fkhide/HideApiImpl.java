@@ -1,6 +1,7 @@
 package me.hhhaiai.refcore.fkhide;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Base64;
 
@@ -18,23 +19,34 @@ public class HideApiImpl {
         if (hideImplBySetHiddenApiExemptions(forName, getDeclaredMethod)) {
             return;
         }
+        // pass方案
+        if (hidImplBypass()) {
+            return;
+        }
+
         // 高版本有兼容问题
         if (hideImplByDex(getDeclaredMethod)) {
             return;
         }
-        try {
 
-        } catch (Throwable igone) {
-            try {
-                hideImplB(forName, getDeclaredMethod);
-            } catch (Throwable throwable) {
-                try {
-                    hideImplC(forName, getDeclaredMethod);
-                } catch (Throwable e) {
-                    hideImplD(forName, getDeclaredMethod);
-                }
-            }
+        if (hideImplB(forName, getDeclaredMethod)) {
+            return;
         }
+        if (hideImplC(forName, getDeclaredMethod)) {
+            return;
+        }
+        if (hideImplD(forName, getDeclaredMethod)) {
+            return;
+        }
+    }
+
+    private static boolean hidImplBypass() {
+        try {
+            PassHideen.addHiddenApiExemptions("L");
+            return true;
+        } catch (Throwable e) {
+        }
+        return false;
     }
 
     //http://androidxref.com/9.0.0_r3/xref/art/test/674-hiddenapi/src-art/Main.java#100
@@ -92,8 +104,10 @@ public class HideApiImpl {
     }
 
     //https://www.androidos.net.cn/android/10.0.0_r6/xref/art/test/674-hiddenapi/src-art/Main.java
-    private static void hideImplB(Method forName, Method getDeclaredMethod) throws Throwable {
+    private static boolean hideImplB(Method forName, Method getDeclaredMethod) {
         //  private static native void setWhitelistAll(boolean value);
+
+        return false;
     }
 
     //但是在高版本，谷歌开始不再信任 classloader 为 null 的类 https://android-review.googlesource.com/c/platform/art/+/1664304
@@ -101,7 +115,9 @@ public class HideApiImpl {
     // * Or apps can just call attachCurrentThread() to hide its
     //   caller in JNI and thus bypass hidden API restrictions.
     //   https://github.com/ChickenHook/RestrictionBypass
-    private static void hideImplC(Method forName, Method getDeclaredMethod) throws Throwable {
+    private static boolean hideImplC(Method forName, Method getDeclaredMethod) {
+
+        return false;
     }
 
     // //dexfile 也要被加入隐藏 api 列表中
@@ -111,8 +127,7 @@ public class HideApiImpl {
     //        // * Apps can call loadClass() will a NULL ClassLoader as parameter
     //        //   and thus pass hidden API restrictions because we assume it
     //        //   comes from platform.
-    private static void hideImplD(Method forName, Method getDeclaredMethod) {
-
-
+    private static boolean hideImplD(Method forName, Method getDeclaredMethod) {
+        return false;
     }
 }
