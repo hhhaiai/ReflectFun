@@ -4,7 +4,7 @@ import android.util.Log;
 
 public class RLog {
     private static final String TAG = "hhhaiai.rvoke";
-    private static boolean isLog = false;
+    private static boolean isLog = true;
 
     public static void v(Throwable igone) {
         v(Log.getStackTraceString(igone));

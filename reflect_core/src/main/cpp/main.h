@@ -8,5 +8,7 @@
 //只有C++才能使用
 #include <string>
 #include <vector>
+#include "log.h"
+#include "art.h"
 
 #endif //MAIN_H

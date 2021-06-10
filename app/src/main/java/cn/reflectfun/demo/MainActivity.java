@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import me.hhhaiai.refcore.Rvoke;
 import me.hhhaiai.refcore.fkhide.NativeHidden;
+import me.hhhaiai.refcore.utils.MContext;
+import me.hhhaiai.refcore.utils.RLog;
 
 ;
 
@@ -45,6 +48,17 @@ public class MainActivity extends Activity {
         TextView tv = (TextView) findViewById(R.id.textView);
         tv.setText(NativeHidden.test());
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            int x = NativeHidden.unseal(MContext.getContext().getApplicationInfo().targetSdkVersion);
+            Log.i("sanbo", "r:" + x);
+        } catch (Throwable e) {
+            Log.e("sanbo", Log.getStackTraceString(e));
+        }
     }
 
     public void onClick(View view) {

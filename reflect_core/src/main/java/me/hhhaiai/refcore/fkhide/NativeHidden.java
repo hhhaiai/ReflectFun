@@ -6,4 +6,8 @@ public class NativeHidden {
     }
 
     public static native String test();
+
+    // weishu
+    public static native int unseal(int targetSdkVersion);
+
 }

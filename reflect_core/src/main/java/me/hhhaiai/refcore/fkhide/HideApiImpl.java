@@ -15,7 +15,7 @@ import me.hhhaiai.refcore.utils.RLog;
 
 public class HideApiImpl {
     public static void hide(Method forName, Method getDeclaredMethod) {
-
+        pre();
         if (hideImplBySetHiddenApiExemptions(forName, getDeclaredMethod)) {
             return;
         }
@@ -37,6 +37,14 @@ public class HideApiImpl {
         }
         if (hideImplD(forName, getDeclaredMethod)) {
             return;
+        }
+    }
+
+    private static void pre() {
+        try {
+            NativeHidden.unseal(MContext.getContext().getApplicationInfo().targetSdkVersion);
+        } catch (Throwable e) {
+            RLog.e(e);
         }
     }
 
