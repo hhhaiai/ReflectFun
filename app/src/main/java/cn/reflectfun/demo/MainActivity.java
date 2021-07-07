@@ -11,7 +11,6 @@ import android.widget.TextView;
 import me.hhhaiai.refcore.Rvoke;
 import me.hhhaiai.refcore.fkhide.NativeHidden;
 import me.hhhaiai.refcore.utils.MContext;
-import me.hhhaiai.refcore.utils.RLog;
 
 ;
 

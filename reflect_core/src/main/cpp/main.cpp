@@ -14,7 +14,7 @@ jint unsealNative(JNIEnv *env, jclass clazz, jint targetSdkVersion) {
     return unseal(env, targetSdkVersion);
 }
 static JNINativeMethod gMethods[] = {
-        {"test",   "()Ljava/lang/String;", (void *) nativeGetHelloString},
+        {"test",   "()Ljava/lang/String;", (jstring *) nativeGetHelloString},
         {"unseal", "(I)I",                 (jint *) unsealNative},
 };
 

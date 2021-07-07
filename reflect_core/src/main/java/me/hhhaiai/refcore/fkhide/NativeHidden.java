@@ -1,5 +1,7 @@
 package me.hhhaiai.refcore.fkhide;
 
+import java.io.File;
+
 public class NativeHidden {
     static {
         System.loadLibrary("woo");
@@ -7,7 +9,6 @@ public class NativeHidden {
 
     public static native String test();
 
-    // weishu
     public static native int unseal(int targetSdkVersion);
 
 }
