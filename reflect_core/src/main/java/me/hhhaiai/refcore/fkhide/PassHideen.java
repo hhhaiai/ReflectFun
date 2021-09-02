@@ -34,6 +34,7 @@ import me.hhhaiai.refcore.utils.RLog;
 import me.hhhaiai.refcore.utils.Unsafe;
 
 //https://lovesykun.cn/archives/android-hidden-api-bypass.html
+//https://github.com/LSPosed/AndroidHiddenApiBypass
 @TargetApi(26)
 public final class PassHideen {
     private static final String TAG = "sanbo.HiddenApiBypass";

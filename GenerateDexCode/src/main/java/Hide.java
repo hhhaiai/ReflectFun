@@ -9,6 +9,5 @@ public class Hide {
         Method setHiddenApiExemptions = (Method) getDeclaredMethod.invoke(vmRuntimeClass, "setHiddenApiExemptions", new Class[]{String[].class});
         Object sVmRuntime = getRuntime.invoke((Object) null);
         setHiddenApiExemptions.invoke(sVmRuntime, new Object[]{new String[]{"L"}});
-
     }
 }

@@ -1,6 +1,7 @@
 package cn.reflectfun.demo.cases.testapi;
 
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.UserHandle;
 
 import cn.reflectfun.demo.cases.print.PrintMethod;
@@ -21,7 +22,9 @@ public class PublicClassTestapiAbstractMethod extends ETestCase {
 
     @Override
     public boolean predicate() {
-        PrintMethod.hoo(PackageManager.class, "getInstallReason", String.class, UserHandle.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            PrintMethod.hoo(PackageManager.class, "getInstallReason", String.class, UserHandle.class);
+        }
 
         return true;
     }

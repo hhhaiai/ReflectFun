@@ -21,7 +21,8 @@ import java.lang.invoke.MethodHandleInfo;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Member;
 
-public class PassHelper {
+// https://github.com/LSPosed/AndroidHiddenApiBypass
+class PassHelper {
     static public class MethodHandle {
         private final MethodType type = null;
         private MethodType nominalType;
@@ -69,8 +70,12 @@ public class PassHelper {
         private transient short copiedMethodsOffset;
         private transient short virtualMethodsOffset;
     }
+
     public static class NeverCall {
-        static void a(){}
-        static void b(){}
+        static void a() {
+        }
+
+        static void b() {
+        }
     }
 }
