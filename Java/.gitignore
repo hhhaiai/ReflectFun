@@ -40,7 +40,7 @@ sh.exe.stackdump
 .vscode/
 
 */JReflectFunVersion.java
-
+src/main/java/me/hhhaiai/refcore/JReflectFunVersion.java
 *.idea/
 target/
 */.gradle/
