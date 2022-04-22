@@ -39,6 +39,8 @@ sh.exe.stackdump
 .vs/
 .vscode/
 
+*/JReflectFunVersion.java
+
 *.idea/
 target/
 */.gradle/

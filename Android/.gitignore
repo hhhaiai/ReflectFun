@@ -39,10 +39,3 @@ sh.exe.stackdump
 .vs/
 .vscode/
 
-*.idea/
-target/
-*/.gradle/
-*.iml
-
-__MACOSX
-.DS_Store
