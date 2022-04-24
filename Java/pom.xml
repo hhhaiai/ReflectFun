@@ -5,18 +5,8 @@
 
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <jdk.version>11</jdk.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>4.13.1</junit.version>
-        <!-- about package  -->
-        <gpg.skip>true</gpg.skip>
-        <javadoc.skip>false</javadoc.skip>
-        <!-- project version file-->
-        <version.template>${project.basedir}/src/main/java/me/hhhaiai/refcore/JReflectFunVersion.java.template
-        </version.template>
-        <version.file>${project.basedir}/src/main/java/me/hhhaiai/refcore/JReflectFunVersion.java</version.file>
+
+
         <!-- set custom main class config -->
         <add.classpath>true</add.classpath>
         <main.classname>me.hhhaiai.refcore.JRvoke</main.classname>
@@ -27,6 +17,11 @@
         <package.jar.version>1.0-SNAPSHOT</package.jar.version>
         <package.jar.description>JReflectFun is a hook lib written in Java</package.jar.description>
 
+        <!-- project version file. need keep version in src dirs-->
+        <version.template>${project.basedir}/src/main/java/me/hhhaiai/refcore/JReflectFunVersion.java.template
+        </version.template>
+        <version.file>${project.basedir}/src/main/java/me/hhhaiai/refcore/JReflectFunVersion.java</version.file>
+
         <!-- project  setting. not need modify. -->
         <project.http.url>https://github.com/hhhaiai/ReflectFun</project.http.url>
         <project.http.connection>scm:git:${project.http.url}.git</project.http.connection>
@@ -34,6 +29,18 @@
         <!--organization and developer-->
         <project.organization.group>sanbo Group</project.organization.group>
         <project.organization.url>https://github.com/hhhaiai</project.organization.url>
+
+        <!-- build version and encoding -->
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <jdk.version>11</jdk.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- about package doc.sing -->
+        <gpg.skip>true</gpg.skip>
+        <javadoc.skip>false</javadoc.skip>
+        <!-- test  lib version -->
+        <junit.version>4.13.1</junit.version>
     </properties>
 
 
