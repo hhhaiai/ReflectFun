@@ -1,53 +1,1 @@
-package me.hhhaiai.refcore;
-
-public class JRvoke {
-
-
-    public static Class<?> getClass(String className) {
-        Class<?> clazz = null;
-        if (ReUtils.isEmpty(className)) {
-            return clazz;
-        }
-        clazz = forNameByName(className);
-        if (clazz == null) {
-            return getClass(className, new JRvoke().getClass().getClassLoader());
-        }
-        return clazz;
-    }
-
-    public static Class<?> getClass(String className, ClassLoader... loaders) {
-        if (ReUtils.isEmpty(className) || loaders == null || loaders.length < 1) {
-            return null;
-        }
-        return forNameByloaders(className, loaders);
-    }
-
-
-    /***********************************内部实现**********************************/
-    private static Class<?> forNameByName(String className) {
-        try {
-            return Class.forName(className);
-        } catch (Throwable e) {
-        }
-        return null;
-    }
-
-    private static Class<?> forNameByloaders(String className, ClassLoader... loaders) {
-        for (int i = 0; i < loaders.length; i++) {
-            try {
-                Class<?> clz = loaders[i].loadClass(className);
-                if (clz != null) {
-                    return clz;
-                }
-            } catch (Exception e) {
-            }
-        }
-
-        return null;
-    }
-
-    /***********************************内部实现**********************************/
-    private JRvoke() {
-    }
-
-}
+package me.hhhaiai.refcore;/** * @Copyright © 2022 sanbo Inc. All rights reserved. * @Description: 反射工具类 * @Version: 1.0 * @Create: 2022/04/114 17:59:22 * @author: sanbo */public class JRvoke {    public static Class<?> getClass(String className) {        Class<?> clazz = null;        if (ReUtils.isEmpty(className)) {            return clazz;        }        clazz = forNameByName(className);        // maybe wasting some time        if (clazz == null) {            return getClass(className, new JRvoke().getClass().getClassLoader());        }        return clazz;    }    public static Class<?> getClass(String className, ClassLoader... loaders) {        if (ReUtils.isEmpty(className) || loaders == null || loaders.length < 1) {            return null;        }        return forNameByloaders(className, loaders);    }    public static Object getIntance(String className) {        if (ReUtils.isEmpty(className)) {            return null;        }        return getIntance(getClass(className));    }    public static Object getIntance(Class<?> clazz) {        if (ReUtils.isNull(clazz)) {            return null;        }        // plan a: find in memory,math,work,or return        // plan b: work, wait the result.        return newInstance(clazz);    }    /***********************************内部实现**********************************/    private static Class<?> forNameByName(String className) {        try {            return Class.forName(className);        } catch (Throwable e) {        }        return null;    }    private static Class<?> forNameByloaders(String className, ClassLoader... loaders) {        for (int i = 0; i < loaders.length; i++) {            try {                Class<?> clz = loaders[i].loadClass(className);                if (clz != null) {                    return clz;                }            } catch (Exception e) {            }        }        return null;    }    private static Object newInstance(Class<?> clazz) {        try {            // support  more constructor. and private constructor.            return clazz.getDeclaredConstructor().newInstance();        } catch (Exception e) {        }        return null;    }    /***********************************内部实现**********************************/    private JRvoke() {    }}

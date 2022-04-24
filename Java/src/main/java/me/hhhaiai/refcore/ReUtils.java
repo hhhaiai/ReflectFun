@@ -28,7 +28,6 @@ public class ReUtils {
             throw new NullPointerException(message);
         return obj;
     }
-
     public static <T> T requireNonNullElse(T obj, T defaultObj) {
         return (obj != null) ? obj : requireNonNull(defaultObj, "defaultObj");
     }

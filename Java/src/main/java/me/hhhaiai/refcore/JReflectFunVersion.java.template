@@ -1,8 +1,1 @@
-package me.hhhaiai.refcore;
-
-public class JReflectFunVersion {
-
-    static String version() {
-        return "%VERSION%";
-    }
-}
+package me.hhhaiai.refcore;public class JReflectFunVersion {    static String version() {        return "%VERSION%";    }}
