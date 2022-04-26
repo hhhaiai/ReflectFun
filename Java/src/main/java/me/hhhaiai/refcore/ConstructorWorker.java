@@ -3,7 +3,7 @@ package me.hhhaiai.refcore;
 import java.lang.reflect.Constructor;
 
 class ConstructorWorker {
-    static Object newInstance(Class clazz, Class[] types, Object[] values) {
+    static Object newInstance(Class<?> clazz, Class<?>[] types, Object[] values) {
 
         try {
             Constructor ctor = null;

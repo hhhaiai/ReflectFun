@@ -8,6 +8,7 @@ class MethodWorker {
         try {
             Method method = null;
             try {
+                // support private method
                 method = clazz.getDeclaredMethod(methodName, types);
             } catch (Throwable e) {
             }
@@ -26,7 +27,12 @@ class MethodWorker {
     public static Object invokeMethod(Object obj, Method m, Object[] values) {
         if (m != null) {
             try {
-                return m.invoke(obj, values);
+                if (RefUtils.isStatic(m)) {
+                    return m.invoke(null, values);
+                } else {
+                    return m.invoke(obj, values);
+                }
+
             } catch (Throwable e) {
             }
         }

@@ -104,7 +104,7 @@ public class JRvoke {
         return invokeMethod(className, methodName, new Class[]{}, new Object[]{});
     }
 
-    public static Object invokeMethod(String className, String methodName, Class[] types, Object[] values) {
+    public static Object invokeMethod(String className, String methodName, Class<?>[] types, Object[] values) {
         if (RefUtils.isEmpty(className, methodName)) {
             return null;
         }
@@ -120,7 +120,7 @@ public class JRvoke {
         return invokeMethod(obj, methodName, new Class[]{}, new Object[]{});
     }
 
-    public static Object invokeMethod(Object obj, String methodName, Class[] types, Object[] values) {
+    public static Object invokeMethod(Object obj, String methodName, Class<?>[] types, Object[] values) {
         if (RefUtils.isEmpty(methodName) || RefUtils.isNull(obj)) {
             return null;
         }
