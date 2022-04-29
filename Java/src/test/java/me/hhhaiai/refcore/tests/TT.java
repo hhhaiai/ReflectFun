@@ -1,4 +1,4 @@
-package me.demo.tesss;
+package me.hhhaiai.refcore.tests;
 
 import me.hhhaiai.refcore.JRvoke;
 
