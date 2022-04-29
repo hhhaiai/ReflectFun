@@ -77,6 +77,7 @@ public class JRvoke {
 
     /////////////////////////////方法反射///////////////////////////////////
 
+
     public static Method getMethod(String className, String methodName) {
         if (RefUtils.isEmpty(className, methodName)) {
             return null;
@@ -104,7 +105,6 @@ public class JRvoke {
         }
         return MethodWorker.getMethodImpl(clazz, methodName, types);
     }
-
 
     // static method
     public static Object invokeMethod(String className, String methodName) {

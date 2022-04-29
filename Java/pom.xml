@@ -4,9 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 
+
     <properties>
-
-
         <!-- set custom main class config -->
         <add.classpath>true</add.classpath>
         <main.classname>me.hhhaiai.refcore.JRvoke</main.classname>
@@ -40,7 +39,7 @@
         <gpg.skip>true</gpg.skip>
         <javadoc.skip>false</javadoc.skip>
         <!-- test  lib version -->
-        <junit.version>4.13.1</junit.version>
+        <junit.version>4.12</junit.version>
     </properties>
 
 
@@ -109,6 +108,16 @@
             <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
