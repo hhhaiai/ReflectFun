@@ -27,6 +27,13 @@ public class JRvoke {
         return clazz;
     }
 
+    public static Class<?> getClass(Object obj) {
+        if (RefUtils.isNull(obj)) {
+            return null;
+        }
+        return obj.getClass();
+    }
+
     public static Class<?> getClass(String className, ClassLoader... loaders) {
         if (RefUtils.isEmpty(className) || loaders == null || loaders.length < 1) {
             return null;
@@ -65,8 +72,8 @@ public class JRvoke {
             return null;
         }
         return ConstructorWorker.newInstance(clazz, types, values);
-
     }
+    // android 还有一种create创建的、asInterface
 
     /////////////////////////////方法反射///////////////////////////////////
 
