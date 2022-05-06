@@ -77,6 +77,7 @@ public class JRvoke {
 
     /////////////////////////////方法反射///////////////////////////////////
 
+    /******************获取方法*****************/
 
     public static Method getMethod(String className, String methodName) {
         if (RefUtils.isEmpty(className, methodName)) {
@@ -106,6 +107,7 @@ public class JRvoke {
         return MethodWorker.getMethodImpl(clazz, methodName, types);
     }
 
+    /******************获取方法*****************/
     // static method
     public static Object invokeMethod(String className, String methodName) {
         return invokeMethod(className, methodName, new Class[]{}, new Object[]{});
@@ -136,6 +138,34 @@ public class JRvoke {
             return null;
         }
         return MethodWorker.invokeMethod(obj, m, values);
+    }
+    /////////////////////////////变量反射///////////////////////////////////
+
+    /******************获取变量*****************/
+
+    //support static field
+    public static Object getFieldValue(String className, String fieldName) {
+        if (RefUtils.isEmpty(className, fieldName)) {
+            return null;
+        }
+        return getFieldValue(getClass(className), fieldName);
+    }
+
+    //support static field
+    public static Object getFieldValue(Class<?> clazz, String fieldName) {
+
+        if (RefUtils.isEmpty(fieldName) || RefUtils.isNull(clazz)) {
+            return null;
+        }
+        return FieldWorker.getFieldValueImpl(null,clazz, fieldName);
+    }
+
+
+    public static Object getField(Object obj, String fieldName){
+       if (RefUtils.isNull(obj)||RefUtils.isEmpty(fieldName)){
+           return null;
+       }
+        return FieldWorker.getFieldValueImpl(obj,getClass(obj), fieldName);
     }
 
     /***********************************内部实现**********************************/
