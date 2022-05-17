@@ -17,7 +17,7 @@ public class PublicB {
     }
 
     public static String getSome() {
-        return "static args:" + stati_Name + "\r\n" + "not static cann't read！" ;
+        return "static args:" + stati_Name + "\r\n" + "not static cann't read！";
     }
 
     public static String getA() {

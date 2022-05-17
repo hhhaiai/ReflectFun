@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
  */
 public class JRvoke {
 
-    /////////////////////////////类反射///////////////////////////////////
+    ///////////////////////////// 类反射///////////////////////////////////
     public static Class<?> getClass(String className) {
         Class<?> clazz = null;
         if (RefUtils.isEmpty(className)) {
@@ -41,7 +41,7 @@ public class JRvoke {
         return ClassWorker.forNameByloaders(className, loaders);
     }
 
-    /////////////////////////////类实例化反射///////////////////////////////////
+    ///////////////////////////// 类实例化反射///////////////////////////////////
 
     public static Object getIntance(String className) {
         if (RefUtils.isEmpty(className)) {
@@ -75,7 +75,7 @@ public class JRvoke {
     }
     // android 还有一种create创建的、asInterface
 
-    /////////////////////////////方法反射///////////////////////////////////
+    ///////////////////////////// 方法反射///////////////////////////////////
 
     /******************获取方法*****************/
 
@@ -139,11 +139,11 @@ public class JRvoke {
         }
         return MethodWorker.invokeMethod(obj, m, values);
     }
-    /////////////////////////////变量反射///////////////////////////////////
+    ///////////////////////////// 变量反射///////////////////////////////////
 
     /******************获取变量*****************/
 
-    //support static field
+    // support static field
     public static Object getFieldValue(String className, String fieldName) {
         if (RefUtils.isEmpty(className, fieldName)) {
             return null;
@@ -151,21 +151,20 @@ public class JRvoke {
         return getFieldValue(getClass(className), fieldName);
     }
 
-    //support static field
+    // support static field
     public static Object getFieldValue(Class<?> clazz, String fieldName) {
 
         if (RefUtils.isEmpty(fieldName) || RefUtils.isNull(clazz)) {
             return null;
         }
-        return FieldWorker.getFieldValueImpl(null,clazz, fieldName);
+        return FieldWorker.getFieldValueImpl(null, clazz, fieldName);
     }
 
-
-    public static Object getField(Object obj, String fieldName){
-       if (RefUtils.isNull(obj)||RefUtils.isEmpty(fieldName)){
-           return null;
-       }
-        return FieldWorker.getFieldValueImpl(obj,getClass(obj), fieldName);
+    public static Object getField(Object obj, String fieldName) {
+        if (RefUtils.isNull(obj) || RefUtils.isEmpty(fieldName)) {
+            return null;
+        }
+        return FieldWorker.getFieldValueImpl(obj, getClass(obj), fieldName);
     }
 
     /***********************************内部实现**********************************/

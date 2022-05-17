@@ -1,7 +1,7 @@
 package cn.reflectfun.demo.cases.print;
 
-import me.hhhaiai.refcore.utils.RLog;
 import me.hhhaiai.refcore.Rvoke;
+import me.hhhaiai.refcore.utils.RLog;
 
 /**
  * 打印方法调用
@@ -14,7 +14,12 @@ public class PrintField {
 
     public static void hoo(Class<?> clazz, String fieldName, Class<?>... ctype) {
 
-        RLog.i(">>>>>>>>>>>>>>>>>>>field [ " + clazz.getName() + "." + fieldName + " ]<<<<<<<<<<<<<<<<<");
+        RLog.i(
+                ">>>>>>>>>>>>>>>>>>>field [ "
+                        + clazz.getName()
+                        + "."
+                        + fieldName
+                        + " ]<<<<<<<<<<<<<<<<<");
         try {
             RLog.i("\t\t getField: " + clazz.getField(fieldName));
         } catch (Throwable e) {

@@ -22,5 +22,4 @@ class ClassWorker {
 
         return null;
     }
-
 }

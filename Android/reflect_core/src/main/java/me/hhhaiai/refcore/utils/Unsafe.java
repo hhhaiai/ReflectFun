@@ -1,6 +1,5 @@
 package me.hhhaiai.refcore.utils;
 
-
 import java.lang.reflect.Field;
 
 public final class Unsafe {
@@ -25,13 +24,15 @@ public final class Unsafe {
         }
     }
 
-    private Unsafe() {
-    }
+    private Unsafe() {}
 
     @SuppressWarnings("unchecked")
     public static int arrayBaseOffset(Class cls) {
         try {
-            return (int) unsafeClass.getDeclaredMethod("arrayBaseOffset", Class.class).invoke(unsafe, cls);
+            return (int)
+                    unsafeClass
+                            .getDeclaredMethod("arrayBaseOffset", Class.class)
+                            .invoke(unsafe, cls);
         } catch (Exception e) {
             return 0;
         }
@@ -40,7 +41,10 @@ public final class Unsafe {
     @SuppressWarnings("unchecked")
     public static int arrayIndexScale(Class cls) {
         try {
-            return (int) unsafeClass.getDeclaredMethod("arrayIndexScale", Class.class).invoke(unsafe, cls);
+            return (int)
+                    unsafeClass
+                            .getDeclaredMethod("arrayIndexScale", Class.class)
+                            .invoke(unsafe, cls);
         } catch (Exception e) {
             return 0;
         }
@@ -49,7 +53,10 @@ public final class Unsafe {
     @SuppressWarnings("unchecked")
     public static long objectFieldOffset(Field field) {
         try {
-            return (long) unsafeClass.getDeclaredMethod("objectFieldOffset", Field.class).invoke(unsafe, field);
+            return (long)
+                    unsafeClass
+                            .getDeclaredMethod("objectFieldOffset", Field.class)
+                            .invoke(unsafe, field);
         } catch (Exception e) {
             return 0;
         }
@@ -58,10 +65,16 @@ public final class Unsafe {
     @SuppressWarnings("unchecked")
     public static int getInt(Object array, long offset) {
         try {
-            return (int) unsafeClass.getDeclaredMethod("getInt", Object.class, long.class).invoke(unsafe, array, offset);
+            return (int)
+                    unsafeClass
+                            .getDeclaredMethod("getInt", Object.class, long.class)
+                            .invoke(unsafe, array, offset);
         } catch (Exception e) {
             try {
-                return (int) unsafeClass.getDeclaredMethod("getIntVolatile", Object.class, long.class).invoke(unsafe, array, offset);
+                return (int)
+                        unsafeClass
+                                .getDeclaredMethod("getIntVolatile", Object.class, long.class)
+                                .invoke(unsafe, array, offset);
             } catch (Exception e1) {
             }
         }
@@ -70,7 +83,8 @@ public final class Unsafe {
 
     public static int getInt(long address) {
         try {
-            return (int) unsafeClass.getDeclaredMethod("getInt", long.class).invoke(unsafe, address);
+            return (int)
+                    unsafeClass.getDeclaredMethod("getInt", long.class).invoke(unsafe, address);
         } catch (Exception e) {
         }
         return 0;
@@ -79,13 +93,18 @@ public final class Unsafe {
     @SuppressWarnings("unchecked")
     public static long getLong(Object array, long offset) {
         try {
-            return (long) unsafeClass.getDeclaredMethod("getLong", Object.class, long.class).invoke(unsafe, array, offset);
+            return (long)
+                    unsafeClass
+                            .getDeclaredMethod("getLong", Object.class, long.class)
+                            .invoke(unsafe, array, offset);
         } catch (Exception e) {
             try {
-                return (long) unsafeClass.getDeclaredMethod("getLongVolatile", Object.class, long.class).invoke(unsafe, array, offset);
+                return (long)
+                        unsafeClass
+                                .getDeclaredMethod("getLongVolatile", Object.class, long.class)
+                                .invoke(unsafe, array, offset);
             } catch (Exception e1) {
             }
-
         }
         return 0;
     }
@@ -93,10 +112,14 @@ public final class Unsafe {
     @SuppressWarnings("unchecked")
     public static void putLong(Object array, long offset, long value) {
         try {
-            unsafeClass.getDeclaredMethod("putLongVolatile", Object.class, long.class, long.class).invoke(unsafe, array, offset, value);
+            unsafeClass
+                    .getDeclaredMethod("putLongVolatile", Object.class, long.class, long.class)
+                    .invoke(unsafe, array, offset, value);
         } catch (Exception e) {
             try {
-                unsafeClass.getDeclaredMethod("putLong", Object.class, long.class, long.class).invoke(unsafe, array, offset, value);
+                unsafeClass
+                        .getDeclaredMethod("putLong", Object.class, long.class, long.class)
+                        .invoke(unsafe, array, offset, value);
             } catch (Exception e1) {
             }
         }
@@ -105,19 +128,22 @@ public final class Unsafe {
     @SuppressWarnings("unchecked")
     public static void putInt(Object array, long offset, int value) {
         try {
-            unsafeClass.getDeclaredMethod("putIntVolatile", Object.class, long.class, int.class).invoke(unsafe, array, offset, value);
+            unsafeClass
+                    .getDeclaredMethod("putIntVolatile", Object.class, long.class, int.class)
+                    .invoke(unsafe, array, offset, value);
         } catch (Exception e) {
             try {
-                unsafeClass.getDeclaredMethod("putInt", Object.class, long.class, int.class).invoke(unsafe, array, offset, value);
+                unsafeClass
+                        .getDeclaredMethod("putInt", Object.class, long.class, int.class)
+                        .invoke(unsafe, array, offset, value);
             } catch (Exception e1) {
             }
         }
     }
 
-
     public static long getObjectAddress(Object obj) {
         try {
-            Object[] array = new Object[]{obj};
+            Object[] array = new Object[] {obj};
             if (arrayIndexScale(Object[].class) == 8) {
                 return getLong(array, arrayBaseOffset(Object[].class));
             } else {
@@ -135,7 +161,7 @@ public final class Unsafe {
      * @return
      */
     public static Object getObject(long address) {
-        Object[] array = new Object[]{null};
+        Object[] array = new Object[] {null};
         long baseOffset = arrayBaseOffset(Object[].class);
         if (Runtime.is64Bit()) {
             putLong(array, baseOffset, address);
@@ -144,7 +170,6 @@ public final class Unsafe {
         }
         return array[0];
     }
-
 
     /**
      * Stores an <code>Object</code> field into the given object.
@@ -155,15 +180,18 @@ public final class Unsafe {
      */
     public static void putObject(Object obj, long offset, Object newValue) {
         try {
-            unsafeClass.getDeclaredMethod("putObjectVolatile", Object.class, long.class, Object.class).invoke(unsafe, obj, offset, newValue);
+            unsafeClass
+                    .getDeclaredMethod("putObjectVolatile", Object.class, long.class, Object.class)
+                    .invoke(unsafe, obj, offset, newValue);
         } catch (Exception e) {
             try {
-                unsafeClass.getDeclaredMethod("putObject", Object.class, long.class, Object.class).invoke(unsafe, obj, offset, newValue);
+                unsafeClass
+                        .getDeclaredMethod("putObject", Object.class, long.class, Object.class)
+                        .invoke(unsafe, obj, offset, newValue);
             } catch (Exception e1) {
             }
         }
     }
-
 
     /**
      * Gets an <code>Object</code> field from the given object.
@@ -174,10 +202,14 @@ public final class Unsafe {
      */
     public static Object getObject(Object obj, long offset) {
         try {
-            return unsafeClass.getDeclaredMethod("getObjectVolatile", Object.class, long.class).invoke(unsafe, obj, offset);
+            return unsafeClass
+                    .getDeclaredMethod("getObjectVolatile", Object.class, long.class)
+                    .invoke(unsafe, obj, offset);
         } catch (Exception e) {
             try {
-                return unsafeClass.getDeclaredMethod("getObject", Object.class, long.class).invoke(unsafe, obj, offset);
+                return unsafeClass
+                        .getDeclaredMethod("getObject", Object.class, long.class)
+                        .invoke(unsafe, obj, offset);
             } catch (Exception e1) {
             }
         }

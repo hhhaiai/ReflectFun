@@ -12,27 +12,37 @@ public class MContext {
     public static Context getContext() {
         try {
             if (mContext == null) {
-                Object activityThread = Rvoke.invokeStaticMethod("android.app.ActivityThread", "currentActivityThread");
-                Application app = (Application) Rvoke.invokeObjectMethod(activityThread, "getApplication");
+                Object activityThread =
+                        Rvoke.invokeStaticMethod(
+                                "android.app.ActivityThread", "currentActivityThread");
+                Application app =
+                        (Application) Rvoke.invokeObjectMethod(activityThread, "getApplication");
                 if (app != null) {
                     mContext = app.getApplicationContext();
                 }
                 if (mContext == null) {
-                    app = (Application) Rvoke.invokeStaticMethod("android.app.AppGlobals", "getInitialApplication");
+                    app =
+                            (Application)
+                                    Rvoke.invokeStaticMethod(
+                                            "android.app.AppGlobals", "getInitialApplication");
                     if (app != null) {
                         mContext = app.getApplicationContext();
                     }
                 }
                 if (mContext == null) {
                     // api 15-30(含)包含该接口
-                    //public ContextImpl getSystemContext()
-                    mContext = (Context) Rvoke.invokeObjectMethod(activityThread, "getSystemContext");
+                    // public ContextImpl getSystemContext()
+                    mContext =
+                            (Context) Rvoke.invokeObjectMethod(activityThread, "getSystemContext");
                 }
                 if (Build.VERSION.SDK_INT > 25) {
                     if (mContext == null) {
                         // api 26-30(含) 包含该接口
                         // public ContextImpl getSystemUiContext() {
-                        mContext = (Context) Rvoke.invokeObjectMethod(activityThread, "getSystemUiContext");
+                        mContext =
+                                (Context)
+                                        Rvoke.invokeObjectMethod(
+                                                activityThread, "getSystemUiContext");
                     }
                 }
             }

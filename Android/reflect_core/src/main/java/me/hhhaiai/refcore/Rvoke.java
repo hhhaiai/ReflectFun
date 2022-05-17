@@ -4,20 +4,18 @@ import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
 import me.hhhaiai.refcore.fkhide.HideApiImpl;
 import me.hhhaiai.refcore.utils.RLog;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * @author miqt & sanbo
  * @Description: 反射工具类
  */
 public class Rvoke {
-
 
     private static Method forName = null;
     private static Method getDeclaredMethod = null;
@@ -28,7 +26,6 @@ public class Rvoke {
     private static Method getConstructor = null;
     private static Method newInstance = null;
 
-
     /********************* get instance begin **************************/
 
     static {
@@ -36,7 +33,8 @@ public class Rvoke {
             forName = Class.class.getDeclaredMethod("forName", String.class);
             // invoke = Method.class.getMethod("invoke", Object.class, Object[].class);
             // 反射获取方法
-            getDeclaredMethod = Class.class.getDeclaredMethod("getDeclaredMethod", String.class, Class[].class);
+            getDeclaredMethod =
+                    Class.class.getDeclaredMethod("getDeclaredMethod", String.class, Class[].class);
             getMethod = Class.class.getDeclaredMethod("getMethod", String.class, Class[].class);
 
             // 反射获取变量
@@ -44,7 +42,8 @@ public class Rvoke {
             getField = Class.class.getDeclaredMethod("getField", String.class);
 
             // 反射实例化代码
-            getDeclaredConstructor = Class.class.getDeclaredMethod("getDeclaredConstructor", Class[].class);
+            getDeclaredConstructor =
+                    Class.class.getDeclaredMethod("getDeclaredConstructor", Class[].class);
             getConstructor = Class.class.getDeclaredMethod("getConstructor", Class[].class);
             newInstance = Constructor.class.getDeclaredMethod("newInstance", Object[].class);
         } catch (Throwable igone) {
@@ -55,41 +54,46 @@ public class Rvoke {
         }
     }
 
-    private Rvoke() {
-    }
+    private Rvoke() {}
 
     public static Object invokeStaticMethod(String clazzName, String methodName) {
-        return invokeStaticMethod(getClass(clazzName), methodName, new Class<?>[]{}, new Object[]{});
+        return invokeStaticMethod(
+                getClass(clazzName), methodName, new Class<?>[] {}, new Object[] {});
     }
 
     public static Object invokeStaticMethod(Class clazz, String methodName) {
-        return invokeStaticMethod(clazz, methodName, new Class<?>[]{}, new Object[]{});
+        return invokeStaticMethod(clazz, methodName, new Class<?>[] {}, new Object[] {});
     }
 
-    public static Object invokeStaticMethod(String clazzName, String methodName, Class<?>[] argsClass, Object[] args) {
+    public static Object invokeStaticMethod(
+            String clazzName, String methodName, Class<?>[] argsClass, Object[] args) {
         return invokeStaticMethod(getClass(clazzName), methodName, argsClass, args);
     }
 
-    public static Object invokeStaticMethod(Class clazz, String methodName, Class<?>[] argsClass, Object[] args) {
+    public static Object invokeStaticMethod(
+            Class clazz, String methodName, Class<?>[] argsClass, Object[] args) {
         return getMethodProcess(clazz, methodName, null, argsClass, args);
     }
 
     public static Object invokeObjectMethod(Object o, String methodName) {
-        return invokeObjectMethod(o, methodName, new Class[]{}, new Object[]{});
+        return invokeObjectMethod(o, methodName, new Class[] {}, new Object[] {});
     }
 
-    public static Object invokeObjectMethod(Object o, String methodName, String[] argsClassNames, Object[] args) {
+    public static Object invokeObjectMethod(
+            Object o, String methodName, String[] argsClassNames, Object[] args) {
         return invokeObjectMethod(o, methodName, converStringToClass(argsClassNames), args);
     }
 
-    public static Object invokeObjectMethod(Object o, String methodName, Class<?>[] argsClass, Object[] args) {
+    public static Object invokeObjectMethod(
+            Object o, String methodName, Class<?>[] argsClass, Object[] args) {
         if (o == null || TextUtils.isEmpty(methodName)) {
             return null;
         }
         return getMethodProcess(o.getClass(), methodName, o, argsClass, args);
     }
 
-    private static Object getMethodProcess(Class clazz, String methodName, Object o, Class<?>[] types, Object[] values) {
+    private static Object getMethodProcess(
+            Class clazz, String methodName, Object o, Class<?>[] types, Object[] values) {
         if (clazz == null || TextUtils.isEmpty(methodName)) {
             return null;
         }
@@ -97,8 +101,8 @@ public class Rvoke {
             return null;
         }
         if (types == null || values == null) {
-            types = new Class[]{};
-            values = new Object[]{};
+            types = new Class[] {};
+            values = new Object[] {};
         }
         return goInvoke(getMethod(clazz, methodName, types), o, values);
     }
@@ -108,11 +112,11 @@ public class Rvoke {
     }
 
     public static Method getMethod(String clazzName, String methodName) {
-        return getMethod(getClass(clazzName), methodName, new Class<?>[]{});
+        return getMethod(getClass(clazzName), methodName, new Class<?>[] {});
     }
 
     public static Method getMethod(Class clazz, String methodName) {
-        return getMethod(clazz, methodName, new Class<?>[]{});
+        return getMethod(clazz, methodName, new Class<?>[] {});
     }
 
     public static Method getMethod(Class clazz, String methodName, Class<?>... types) {
@@ -174,11 +178,11 @@ public class Rvoke {
      * @return
      */
     public static Object newInstance(String clazzName) {
-        return newInstance(clazzName, new Class[]{}, new Object[]{});
+        return newInstance(clazzName, new Class[] {}, new Object[] {});
     }
 
     public static Object newInstance(Class clazzName) {
-        return newInstance(clazzName, new Class[]{}, new Object[]{});
+        return newInstance(clazzName, new Class[] {}, new Object[] {});
     }
 
     public static Object newInstance(String clazzName, Class[] types, Object[] values) {
@@ -195,22 +199,22 @@ public class Rvoke {
             }
             Constructor ctor = null;
             if (types == null || types.length == 0) {
-                ctor = (Constructor) goInvoke(getDeclaredConstructor, clazz, new Object[]{null});
+                ctor = (Constructor) goInvoke(getDeclaredConstructor, clazz, new Object[] {null});
                 if (ctor == null) {
-                    ctor = (Constructor) goInvoke(getConstructor, clazz, new Object[]{null});
+                    ctor = (Constructor) goInvoke(getConstructor, clazz, new Object[] {null});
                 }
             } else {
-                ctor = (Constructor) goInvoke(getDeclaredConstructor, clazz, new Object[]{types});
+                ctor = (Constructor) goInvoke(getDeclaredConstructor, clazz, new Object[] {types});
                 if (ctor == null) {
-                    ctor = (Constructor) goInvoke(getConstructor, clazz, new Object[]{types});
+                    ctor = (Constructor) goInvoke(getConstructor, clazz, new Object[] {types});
                 }
             }
             if (ctor != null) {
                 ctor.setAccessible(true);
                 if (types == null || types.length == 0) {
-                    return goInvoke(newInstance, ctor, new Object[]{null});
+                    return goInvoke(newInstance, ctor, new Object[] {null});
                 } else {
-                    return goInvoke(newInstance, ctor, new Object[]{values});
+                    return goInvoke(newInstance, ctor, new Object[] {values});
                 }
             } else {
                 return newInstanceImplB(clazz, types, values);
@@ -248,30 +252,30 @@ public class Rvoke {
         return null;
     }
 
-//    /**
-//     * 通过名称获取类.
-//     *
-//     * @param name
-//     * @return
-//     */
-//    public static Class getClass(String name) {
-//        Class result = null;
-//        try {
-//            if (TextUtils.isEmpty(name)) {
-//                return result;
-//            }
-//                result = getClassByForName(name);
-//            if (result == null) {
-//                result = getClassByf(name);
-//            }
-//        } catch (Throwable igone) {
-//                    if (isLog) {
-//                        RLog.e(igone);
-//                    }
-//        }
-//
-//        return result;
-//    }
+    //    /**
+    //     * 通过名称获取类.
+    //     *
+    //     * @param name
+    //     * @return
+    //     */
+    //    public static Class getClass(String name) {
+    //        Class result = null;
+    //        try {
+    //            if (TextUtils.isEmpty(name)) {
+    //                return result;
+    //            }
+    //                result = getClassByForName(name);
+    //            if (result == null) {
+    //                result = getClassByf(name);
+    //            }
+    //        } catch (Throwable igone) {
+    //                    if (isLog) {
+    //                        RLog.e(igone);
+    //                    }
+    //        }
+    //
+    //        return result;
+    //    }
 
     public static Object getFieldValue(Object o, String fieldName) {
         if (o == null) {
@@ -306,7 +310,8 @@ public class Rvoke {
         setFieldValueImpl(o, o.getClass(), fieldName, value);
     }
 
-    private static void setFieldValueImpl(Object o, Class<?> clazz, String fieldName, Object value) {
+    private static void setFieldValueImpl(
+            Object o, Class<?> clazz, String fieldName, Object value) {
         try {
             Field field = getUpdateableFieldImpl(clazz, fieldName);
             if (field != null) {
@@ -352,7 +357,7 @@ public class Rvoke {
         return getUpdateableFieldImpl(clazz, fieldName);
     }
 
-    //内部元反射获取变量，无须关注异常，不打印日志
+    // 内部元反射获取变量，无须关注异常，不打印日志
     private static Field getUpdateableFieldImpl(Class clazz, String fieldName) {
         Field field = null;
         try {
@@ -377,7 +382,7 @@ public class Rvoke {
         }
     }
 
-    //内部常规反射获取变量，无须关注异常，不打印日志
+    // 内部常规反射获取变量，无须关注异常，不打印日志
     private static Field getFieldImplB(Class clazz, String fieldName) {
         Field field = null;
         try {
@@ -421,7 +426,8 @@ public class Rvoke {
                 result = getClassByForName(name);
             }
             if (result == null) {
-//                result = getaClassByLoader(name, ClazzUtils.class.getClassLoader());
+                //                result = getaClassByLoader(name,
+                // ClazzUtils.class.getClassLoader());
                 Object o = invokeObjectMethod(name.getClass(), "getClassLoader");
                 if (o != null) {
                     result = getaClassByLoader(name, o);
@@ -445,7 +451,13 @@ public class Rvoke {
             for (int i = 0; i < loader.length; i++) {
                 try {
                     if (result == null) {
-                        result = (Class) invokeObjectMethod(loader[i], "loadClass", new Class[]{String.class}, new Object[]{className});
+                        result =
+                                (Class)
+                                        invokeObjectMethod(
+                                                loader[i],
+                                                "loadClass",
+                                                new Class[] {String.class},
+                                                new Object[] {className});
                     } else {
                         return result;
                     }
@@ -494,7 +506,6 @@ public class Rvoke {
         return null;
     }
 
-
     private static Class[] converStringToClass(String[] argsClassNames) {
         if (argsClassNames != null) {
             Class[] argsClass = new Class[argsClassNames.length];
@@ -507,7 +518,7 @@ public class Rvoke {
             }
             return argsClass;
         }
-        return new Class[]{};
+        return new Class[] {};
     }
 
     public static Object getDexClassLoader(Context context, String path) {
@@ -515,9 +526,16 @@ public class Rvoke {
             String dc = "dalvik.system.DexClassLoader";
             Class c = getClass("java.lang.ClassLoader");
             if (c != null) {
-//            Class[] types = new Class[]{String.class, String.class, String.class, ClassLoader.class};
-                Class[] types = new Class[]{String.class, String.class, String.class, c};
-                Object[] values = new Object[]{path, context.getCacheDir().getAbsolutePath(), null, invokeObjectMethod(context, "getClassLoader")};
+                //            Class[] types = new Class[]{String.class, String.class, String.class,
+                // ClassLoader.class};
+                Class[] types = new Class[] {String.class, String.class, String.class, c};
+                Object[] values =
+                        new Object[] {
+                            path,
+                            context.getCacheDir().getAbsolutePath(),
+                            null,
+                            invokeObjectMethod(context, "getClassLoader")
+                        };
                 return newInstance(dc, types, values);
             }
         } catch (Throwable igone) {
@@ -556,6 +574,10 @@ public class Rvoke {
         if (TextUtils.isEmpty(key)) {
             return "";
         }
-        return invokeStaticMethod("android.os.SystemProperties", "get", new Class[]{String.class}, new Object[]{key});
+        return invokeStaticMethod(
+                "android.os.SystemProperties",
+                "get",
+                new Class[] {String.class},
+                new Object[] {key});
     }
 }

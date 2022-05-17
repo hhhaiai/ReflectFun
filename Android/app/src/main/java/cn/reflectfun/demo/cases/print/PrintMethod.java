@@ -1,7 +1,7 @@
 package cn.reflectfun.demo.cases.print;
 
-import me.hhhaiai.refcore.utils.RLog;
 import me.hhhaiai.refcore.Rvoke;
+import me.hhhaiai.refcore.utils.RLog;
 
 /**
  * 打印方法调用
@@ -13,7 +13,12 @@ public class PrintMethod {
     }
 
     public static void hoo(Class<?> clazz, String methodName, Class<?>... ctype) {
-        RLog.i(">>>>>>>>>>>>>>>>>>>method [ " + clazz.getName()+"."+ methodName + " ]<<<<<<<<<<<<<<<<<");
+        RLog.i(
+                ">>>>>>>>>>>>>>>>>>>method [ "
+                        + clazz.getName()
+                        + "."
+                        + methodName
+                        + " ]<<<<<<<<<<<<<<<<<");
         try {
             RLog.i("\t\t getMethod: " + clazz.getMethod(methodName));
         } catch (Throwable e) {

@@ -45,7 +45,7 @@ class RefUtils {
         return Modifier.isPrivate(modifiers);
     }
 
-    //@TODO need test, getMethod or getDeclaredMethod
+    // @TODO need test, getMethod or getDeclaredMethod
     static boolean isProtected(Method method) {
         int modifiers = method.getModifiers();
         return Modifier.isProtected(modifiers);
@@ -60,8 +60,7 @@ class RefUtils {
     }
 
     public static <T> T requireNonNull(T obj, String message) {
-        if (obj == null)
-            throw new NullPointerException(message);
+        if (obj == null) throw new NullPointerException(message);
         return obj;
     }
 

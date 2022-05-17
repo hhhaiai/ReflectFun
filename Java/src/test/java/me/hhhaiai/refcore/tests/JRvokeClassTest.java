@@ -2,17 +2,14 @@ package me.hhhaiai.refcore.tests;
 
 import org.junit.Test;
 
-class JRvokeClassTest {
+public class JRvokeClassTest {
 
     @Test
-    void testGetClass() {
-    }
+    public void testGetClass() {}
 
     @Test
-    void testGetClass1() {
-    }
+    public  void testGetClass1() {}
 
     @Test
-    void testGetClass2() {
-    }
+    public void testGetClass2() {}
 }

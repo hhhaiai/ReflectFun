@@ -17,6 +17,9 @@ package me.hhhaiai.refcore.fkhide;
 
 import android.annotation.TargetApi;
 
+import me.hhhaiai.refcore.utils.RLog;
+import me.hhhaiai.refcore.utils.Unsafe;
+
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandleInfo;
 import java.lang.invoke.MethodHandles;
@@ -30,11 +33,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import me.hhhaiai.refcore.utils.RLog;
-import me.hhhaiai.refcore.utils.Unsafe;
-
-//https://lovesykun.cn/archives/android-hidden-api-bypass.html
-//https://github.com/LSPosed/AndroidHiddenApiBypass
+// https://lovesykun.cn/archives/android-hidden-api-bypass.html
+// https://github.com/LSPosed/AndroidHiddenApiBypass
 @TargetApi(26)
 public final class PassHideen {
     private static final String TAG = "sanbo.HiddenApiBypass";
@@ -49,21 +49,37 @@ public final class PassHideen {
 
     static {
         try {
-            artOffset = Unsafe.objectFieldOffset(PassHelper.MethodHandle.class.getDeclaredField("artFieldOrMethod"));
-            infoOffset = Unsafe.objectFieldOffset(PassHelper.MethodHandleImpl.class.getDeclaredField("info"));
-            methodsOffset = Unsafe.objectFieldOffset(PassHelper.Class.class.getDeclaredField("methods"));
-            memberOffset = Unsafe.objectFieldOffset(PassHelper.HandleInfo.class.getDeclaredField("member"));
-            MethodHandle mhA = MethodHandles.lookup().unreflect(PassHelper.NeverCall.class.getDeclaredMethod("a"));
-            MethodHandle mhB = MethodHandles.lookup().unreflect(PassHelper.NeverCall.class.getDeclaredMethod("b"));
+            artOffset =
+                    Unsafe.objectFieldOffset(
+                            PassHelper.MethodHandle.class.getDeclaredField("artFieldOrMethod"));
+            infoOffset =
+                    Unsafe.objectFieldOffset(
+                            PassHelper.MethodHandleImpl.class.getDeclaredField("info"));
+            methodsOffset =
+                    Unsafe.objectFieldOffset(PassHelper.Class.class.getDeclaredField("methods"));
+            memberOffset =
+                    Unsafe.objectFieldOffset(
+                            PassHelper.HandleInfo.class.getDeclaredField("member"));
+            MethodHandle mhA =
+                    MethodHandles.lookup()
+                            .unreflect(PassHelper.NeverCall.class.getDeclaredMethod("a"));
+            MethodHandle mhB =
+                    MethodHandles.lookup()
+                            .unreflect(PassHelper.NeverCall.class.getDeclaredMethod("b"));
             long aAddr = Unsafe.getLong(mhA, artOffset);
             long bAddr = Unsafe.getLong(mhB, artOffset);
             long aMethods = Unsafe.getLong(PassHelper.NeverCall.class, methodsOffset);
 
             size = bAddr - aAddr;
-            RLog.v(TAG, size + " " +
-                    Long.toString(aAddr, 16) + ", " +
-                    Long.toString(bAddr, 16) + ", " +
-                    Long.toString(aMethods, 16));
+            RLog.v(
+                    TAG,
+                    size
+                            + " "
+                            + Long.toString(aAddr, 16)
+                            + ", "
+                            + Long.toString(bAddr, 16)
+                            + ", "
+                            + Long.toString(aMethods, 16));
             bias = aAddr - aMethods - size;
         } catch (Exception e) {
             throw new ExceptionInInitializerError(e);
@@ -81,7 +97,9 @@ public final class PassHideen {
         if (clazz.isPrimitive() || clazz.isArray()) return list;
         MethodHandle mh;
         try {
-            mh = MethodHandles.lookup().unreflect(PassHelper.NeverCall.class.getDeclaredMethod("a"));
+            mh =
+                    MethodHandles.lookup()
+                            .unreflect(PassHelper.NeverCall.class.getDeclaredMethod("a"));
         } catch (NoSuchMethodException | IllegalAccessException e) {
             return list;
         }
@@ -98,8 +116,9 @@ public final class PassHideen {
             }
             MethodHandleInfo info = (MethodHandleInfo) Unsafe.getObject(mh, infoOffset);
             Executable member = (Executable) Unsafe.getObject(info, memberOffset);
-//            RLog.v(TAG, "got " + clazz.getTypeName() + "." + member +
-//                    "(" + Arrays.stream(member.getTypeParameters()).map(Type::getTypeName).collect(Collectors.joining()) + ")");
+            //            RLog.v(TAG, "got " + clazz.getTypeName() + "." + member +
+            //                    "(" +
+            // Arrays.stream(member.getTypeParameters()).map(Type::getTypeName).collect(Collectors.joining()) + ")");
             list.add(member);
         }
         return list;
@@ -113,10 +132,15 @@ public final class PassHideen {
      *                          the whitelist: access permitted, and no logging..
      * @return whether the operation is successful
      */
-    public static boolean setHiddenApiExemptions(String... signaturePrefixes) throws ClassNotFoundException {
+    public static boolean setHiddenApiExemptions(String... signaturePrefixes)
+            throws ClassNotFoundException {
         List<Executable> methods = getDeclaredMethods(Class.forName("dalvik.system.VMRuntime"));
-        Optional<Executable> getRuntime = methods.stream().filter(it -> it.getName().equals("getRuntime")).findFirst();
-        Optional<Executable> setHiddenApiExemptions = methods.stream().filter(it -> it.getName().equals("setHiddenApiExemptions")).findFirst();
+        Optional<Executable> getRuntime =
+                methods.stream().filter(it -> it.getName().equals("getRuntime")).findFirst();
+        Optional<Executable> setHiddenApiExemptions =
+                methods.stream()
+                        .filter(it -> it.getName().equals("setHiddenApiExemptions"))
+                        .findFirst();
         if (getRuntime.isPresent() && setHiddenApiExemptions.isPresent()) {
             getRuntime.get().setAccessible(true);
             try {
@@ -138,7 +162,8 @@ public final class PassHideen {
      *                          the whitelist: access permitted, and no logging..
      * @return whether the operation is successful
      */
-    public static boolean addHiddenApiExemptions(String... signaturePrefixes) throws ClassNotFoundException {
+    public static boolean addHiddenApiExemptions(String... signaturePrefixes)
+            throws ClassNotFoundException {
         PassHideen.signaturePrefixes.addAll(Arrays.asList(signaturePrefixes));
         String[] strings = new String[PassHideen.signaturePrefixes.size()];
         PassHideen.signaturePrefixes.toArray(strings);

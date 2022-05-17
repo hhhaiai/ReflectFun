@@ -1,15 +1,20 @@
 package me.hhhaiai.refcore.utils;
 
-
 public class Runtime {
 
-
-    private volatile static boolean g64 = false;
-    private volatile static boolean isArt = true;
+    private static volatile boolean g64 = false;
+    private static volatile boolean isArt = true;
 
     static {
         try {
-            g64 = (boolean) Class.forName("dalvik.system.VMRuntime").getDeclaredMethod("is64Bit").invoke(Class.forName("dalvik.system.VMRuntime").getDeclaredMethod("getRuntime").invoke(null));
+            g64 =
+                    (boolean)
+                            Class.forName("dalvik.system.VMRuntime")
+                                    .getDeclaredMethod("is64Bit")
+                                    .invoke(
+                                            Class.forName("dalvik.system.VMRuntime")
+                                                    .getDeclaredMethod("getRuntime")
+                                                    .invoke(null));
         } catch (Exception e) {
             g64 = false;
         }
@@ -23,6 +28,4 @@ public class Runtime {
     public static boolean isArt() {
         return isArt;
     }
-
 }
-

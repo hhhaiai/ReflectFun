@@ -4,7 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 
-
     <properties>
         <!-- set custom main class config -->
         <add.classpath>true</add.classpath>
@@ -108,7 +107,6 @@
             <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
-
 
     <dependencies>
         <dependency>

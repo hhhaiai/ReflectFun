@@ -16,14 +16,13 @@
 
 package me.hhhaiai.refcore.fkhide;
 
-
 import java.lang.invoke.MethodHandleInfo;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Member;
 
 // https://github.com/LSPosed/AndroidHiddenApiBypass
 class PassHelper {
-    static public class MethodHandle {
+    public static class MethodHandle {
         private final MethodType type = null;
         private MethodType nominalType;
         private MethodHandle cachedSpreadInvoker;
@@ -33,16 +32,16 @@ class PassHelper {
         protected final long artFieldOrMethod = 0;
     }
 
-    static final public class MethodHandleImpl extends MethodHandle {
+    public static final class MethodHandleImpl extends MethodHandle {
         private final MethodHandleInfo info = null;
     }
 
-    static final public class HandleInfo {
+    public static final class HandleInfo {
         private final Member member = null;
         private final MethodHandle handle = null;
     }
 
-    static final public class Class {
+    public static final class Class {
         private transient ClassLoader classLoader;
         private transient java.lang.Class<?> componentType;
         private transient Object dexCache;
@@ -72,10 +71,8 @@ class PassHelper {
     }
 
     public static class NeverCall {
-        static void a() {
-        }
+        static void a() {}
 
-        static void b() {
-        }
+        static void b() {}
     }
 }

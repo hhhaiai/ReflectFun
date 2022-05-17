@@ -5,24 +5,22 @@ import android.os.UserManager;
 import android.telephony.TelephonyManager;
 
 import cn.reflectfun.demo.cases.print.PrintField;
+
 import me.hhhaiai.testcaselib.defcase.ETestCase;
 
 public class PublicClassSystemField extends ETestCase {
 
     static String mName = "公开类系统变量";
 
-
     public PublicClassSystemField() {
         super(mName);
     }
 
     @Override
-    public void prepare() {
-    }
+    public void prepare() {}
 
     @Override
     public boolean predicate() {
-
 
         if (Build.VERSION.SDK_INT > 16) {
             PrintField.hoo(UserManager.class, "USER_TYPE_FULL_SYSTEM");
@@ -33,8 +31,4 @@ public class PublicClassSystemField extends ETestCase {
         PrintField.hoo(TelephonyManager.class, "KEY_TYPE_WLAN");
         return true;
     }
-
-
 }
-
-

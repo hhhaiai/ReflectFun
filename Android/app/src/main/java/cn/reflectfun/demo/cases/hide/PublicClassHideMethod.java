@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.UserManager;
 
 import cn.reflectfun.demo.cases.print.PrintMethod;
+
 import me.hhhaiai.refcore.utils.RLog;
 import me.hhhaiai.testcaselib.defcase.ETestCase;
 
@@ -14,15 +15,12 @@ public class PublicClassHideMethod extends ETestCase {
 
     static String mName = "公开类隐藏方法";
 
-
     public PublicClassHideMethod() {
         super(mName);
     }
 
     @Override
-    public void prepare() {
-    }
-
+    public void prepare() {}
 
     @Override
     public boolean predicate() {
@@ -40,8 +38,4 @@ public class PublicClassHideMethod extends ETestCase {
         }
         return true;
     }
-
-
 }
-
-

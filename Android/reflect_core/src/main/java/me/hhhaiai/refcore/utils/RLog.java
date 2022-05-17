@@ -22,7 +22,6 @@ public class RLog {
         print(Log.VERBOSE, tag, info);
     }
 
-
     public static void d(Throwable igone) {
         d(Log.getStackTraceString(igone));
     }
@@ -38,7 +37,6 @@ public class RLog {
     public static void d(String tag, String info) {
         print(Log.DEBUG, tag, info);
     }
-
 
     public static void i(Throwable igone) {
         i(Log.getStackTraceString(igone));
@@ -56,7 +54,6 @@ public class RLog {
         print(Log.INFO, tag, info);
     }
 
-
     public static void w(Throwable igone) {
         w(Log.getStackTraceString(igone));
     }
@@ -72,7 +69,6 @@ public class RLog {
     public static void w(String tag, String info) {
         print(Log.WARN, tag, info);
     }
-
 
     public static void e(Throwable igone) {
         e(Log.getStackTraceString(igone));
@@ -105,7 +101,6 @@ public class RLog {
     public static void wtf(String tag, String info) {
         print(Log.ASSERT, tag, info);
     }
-
 
     private static void print(int priority, String tag, String info) {
         if (isLog) {

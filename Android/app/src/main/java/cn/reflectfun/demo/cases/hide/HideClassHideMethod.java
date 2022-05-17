@@ -2,25 +2,23 @@ package cn.reflectfun.demo.cases.hide;
 
 import android.bluetooth.BluetoothDevice;
 
-import java.io.PrintWriter;
-
 import cn.reflectfun.demo.cases.print.PrintMethod;
+
 import me.hhhaiai.refcore.utils.RLog;
 import me.hhhaiai.testcaselib.defcase.ETestCase;
+
+import java.io.PrintWriter;
 
 public class HideClassHideMethod extends ETestCase {
 
     static String mName = "隐藏类隐藏方法";
-
 
     public HideClassHideMethod() {
         super(mName);
     }
 
     @Override
-    public void prepare() {
-    }
-
+    public void prepare() {}
 
     @Override
     public boolean predicate() {
@@ -29,12 +27,12 @@ public class HideClassHideMethod extends ETestCase {
         PrintMethod.hoo("android.app.ResourcesManager", "dump", String.class, PrintWriter.class);
         PrintMethod.hoo("android.bluetooth.BluetoothHidHost", "connect", BluetoothDevice.class);
         PrintMethod.hoo("android.bluetooth.BluetoothHidHost", "getPriority", BluetoothDevice.class);
-        PrintMethod.hoo("android.bluetooth.BluetoothHidHost", "setPriority", BluetoothDevice.class, int.class);
+        PrintMethod.hoo(
+                "android.bluetooth.BluetoothHidHost",
+                "setPriority",
+                BluetoothDevice.class,
+                int.class);
 
         return true;
     }
-
-
 }
-
-

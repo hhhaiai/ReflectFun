@@ -5,16 +5,17 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.Base64;
 
+import dalvik.system.DexFile;
+
+import me.hhhaiai.refcore.utils.MContext;
+import me.hhhaiai.refcore.utils.RLog;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 
-import dalvik.system.DexFile;
-import me.hhhaiai.refcore.utils.MContext;
-import me.hhhaiai.refcore.utils.RLog;
-
 public class HideApiImpl {
-    private static boolean isRun =false;
+    private static boolean isRun = false;
 
     public static void hide(Method forName, Method getDeclaredMethod) {
         if (isRun) {
@@ -35,23 +36,22 @@ public class HideApiImpl {
                 return;
             }
 
-//        if (restrictionBypass(forName, getDeclaredMethod)) {
-//            return;
-//        }
-            //https://bbs.pediy.com/thread-268936.htm#msg_header_h1_1
+            //        if (restrictionBypass(forName, getDeclaredMethod)) {
+            //            return;
+            //        }
+            // https://bbs.pediy.com/thread-268936.htm#msg_header_h1_1
             // https://github.com/whulzz1993/RePublicc
             rePublicc();
         } catch (Throwable e) {
             RLog.e(e);
         }
-
-
     }
 
-    //https://github.com/whulzz1993/RePublic
+    // https://github.com/whulzz1993/RePublic
     private static boolean rePublicc() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
-                || (Build.VERSION.SDK_INT == Build.VERSION_CODES.O_MR1 && Build.VERSION.PREVIEW_SDK_INT > 0)) {
+                || (Build.VERSION.SDK_INT == Build.VERSION_CODES.O_MR1
+                        && Build.VERSION.PREVIEW_SDK_INT > 0)) {
             System.loadLibrary("republic");
         }
         return true;
@@ -66,18 +66,25 @@ public class HideApiImpl {
         return false;
     }
 
-    //http://androidxref.com/9.0.0_r3/xref/art/test/674-hiddenapi/src-art/Main.java#100
+    // http://androidxref.com/9.0.0_r3/xref/art/test/674-hiddenapi/src-art/Main.java#100
     // android 11后 setHiddenApiExemptions 被放置到c层
-    private static boolean hideImplBySetHiddenApiExemptions(Method forName, Method getDeclaredMethod) {
+    private static boolean hideImplBySetHiddenApiExemptions(
+            Method forName, Method getDeclaredMethod) {
         try {
             Class<?> vmRuntimeClass = (Class<?>) forName.invoke(null, "dalvik.system.VMRuntime");
-            Method getRuntime = (Method) getDeclaredMethod.invoke(vmRuntimeClass, "getRuntime", null);
-            Method setHiddenApiExemptions = (Method) getDeclaredMethod.invoke(vmRuntimeClass, "setHiddenApiExemptions", new Class[]{String[].class});
+            Method getRuntime =
+                    (Method) getDeclaredMethod.invoke(vmRuntimeClass, "getRuntime", null);
+            Method setHiddenApiExemptions =
+                    (Method)
+                            getDeclaredMethod.invoke(
+                                    vmRuntimeClass,
+                                    "setHiddenApiExemptions",
+                                    new Class[] {String[].class});
             if (setHiddenApiExemptions == null) {
                 return false;
             }
             Object sVmRuntime = getRuntime.invoke(null);
-            setHiddenApiExemptions.invoke(sVmRuntime, new Object[]{new String[]{"L"}});
+            setHiddenApiExemptions.invoke(sVmRuntime, new Object[] {new String[] {"L"}});
             return true;
         } catch (Throwable e) {
             RLog.e(e);
@@ -98,7 +105,8 @@ public class HideApiImpl {
     //        //   comes from platform.
     private static boolean hideImplByDex(Method getDeclaredMethod) {
         try {
-            String dex = "ZGV4CjAzNQCi6VP1NL4ulKqUHo8KwXD8+Hq2zYqVqDtoBQAAcAAAAHhWNBIAAAAAAAAAALAEAAAaAAAAcAAAAA4AAADYAAAAAwAAABABAAAAAAAAAAAAAAUAAAA0AQAAAQAAAFwBAADsAwAAfAEAAKACAACoAgAAswIAALYCAAC+AgAAwwIAAN8CAADyAgAAFgMAADkDAABbAwAAbwMAAIMDAACyAwAAzgMAANEDAADlAwAA+gMAAA8EAAAoBAAAMQQAAEQEAABQBAAAWAQAAHAEAAB3BAAAAwAAAAUAAAAGAAAABwAAAAgAAAAJAAAACgAAAAsAAAAMAAAADQAAAA4AAAAPAAAAEAAAABEAAAAEAAAABgAAAJACAAAEAAAACQAAAJgCAAAOAAAACgAAAAAAAAAAAAIAAAAAAAAAAgAZAAAAAgABABQAAAAGAAIAAAAAAAkAAAAWAAAAAAAAAAEAAAAGAAAAAAAAAAEAAAB4AgAAoQQAAAAAAAABAAAAkwQAAAEAAQABAAAAfQQAAAQAAABwEAMAAAAOAAkAAAADAAAAggQAAGYAAAASCBIlEhcSBhwAAgAaARQAI1ILABwDBwBNAwIGHAMLAE0DAgduMAIAEAIMAhwAAgAaARMAI3MLABwEBwBNBAMGbjACABADDAAjcQwAGgMSAE0DAQZuMAQAgAEMAB8AAgAjUQwAGgMVAE0DAQZNCAEHbjAEAAIBDAEfAQkAI1MMABoEFwBNBAMGI3QLABwFDQBNBQQGTQQDB24wBAACAwwAHwAJACNiDABuMAQAgQIMASNyDAAjcw0AGgQCAE0EAwZNAwIGbjAEABACDgAAAAAAAAAAAAEAAAAAAAAAAQAAAHwBAAACAAAABgAMAAIAAAAHAAsABjxpbml0PgAJSGlkZS5qYXZhAAFMAAZMSGlkZTsAA0xMTAAaTGRhbHZpay9hbm5vdGF0aW9uL1Rocm93czsAEUxqYXZhL2xhbmcvQ2xhc3M7ACJMamF2YS9sYW5nL0lsbGVnYWxBY2Nlc3NFeGNlcHRpb247ACFMamF2YS9sYW5nL05vU3VjaE1ldGhvZEV4Y2VwdGlvbjsAIExqYXZhL2xhbmcvTnVsbFBvaW50ZXJFeGNlcHRpb247ABJMamF2YS9sYW5nL09iamVjdDsAEkxqYXZhL2xhbmcvU3RyaW5nOwAtTGphdmEvbGFuZy9yZWZsZWN0L0ludm9jYXRpb25UYXJnZXRFeGNlcHRpb247ABpMamF2YS9sYW5nL3JlZmxlY3QvTWV0aG9kOwABVgASW0xqYXZhL2xhbmcvQ2xhc3M7ABNbTGphdmEvbGFuZy9PYmplY3Q7ABNbTGphdmEvbGFuZy9TdHJpbmc7ABdkYWx2aWsuc3lzdGVtLlZNUnVudGltZQAHZm9yTmFtZQARZ2V0RGVjbGFyZWRNZXRob2QACmdldFJ1bnRpbWUABmludm9rZQAWc2V0SGlkZGVuQXBpRXhlbXB0aW9ucwAFdmFsdWUABHdvcmsABAAHDgAGAAdKARIPARoP4QEUD2nTAAIBARgcBBgEGAgYAxgFAAACAACBgASEAwEJnAMADwAAAAAAAAABAAAAAAAAAAEAAAAaAAAAcAAAAAIAAAAOAAAA2AAAAAMAAAADAAAAEAEAAAUAAAAFAAAANAEAAAYAAAABAAAAXAEAAAMQAAABAAAAfAEAAAEgAAACAAAAhAEAAAYgAAABAAAAeAIAAAEQAAACAAAAkAIAAAIgAAAaAAAAoAIAAAMgAAACAAAAfQQAAAQgAAABAAAAkwQAAAAgAAABAAAAoQQAAAAQAAABAAAAsAQAAA==";
+            String dex =
+                    "ZGV4CjAzNQCi6VP1NL4ulKqUHo8KwXD8+Hq2zYqVqDtoBQAAcAAAAHhWNBIAAAAAAAAAALAEAAAaAAAAcAAAAA4AAADYAAAAAwAAABABAAAAAAAAAAAAAAUAAAA0AQAAAQAAAFwBAADsAwAAfAEAAKACAACoAgAAswIAALYCAAC+AgAAwwIAAN8CAADyAgAAFgMAADkDAABbAwAAbwMAAIMDAACyAwAAzgMAANEDAADlAwAA+gMAAA8EAAAoBAAAMQQAAEQEAABQBAAAWAQAAHAEAAB3BAAAAwAAAAUAAAAGAAAABwAAAAgAAAAJAAAACgAAAAsAAAAMAAAADQAAAA4AAAAPAAAAEAAAABEAAAAEAAAABgAAAJACAAAEAAAACQAAAJgCAAAOAAAACgAAAAAAAAAAAAIAAAAAAAAAAgAZAAAAAgABABQAAAAGAAIAAAAAAAkAAAAWAAAAAAAAAAEAAAAGAAAAAAAAAAEAAAB4AgAAoQQAAAAAAAABAAAAkwQAAAEAAQABAAAAfQQAAAQAAABwEAMAAAAOAAkAAAADAAAAggQAAGYAAAASCBIlEhcSBhwAAgAaARQAI1ILABwDBwBNAwIGHAMLAE0DAgduMAIAEAIMAhwAAgAaARMAI3MLABwEBwBNBAMGbjACABADDAAjcQwAGgMSAE0DAQZuMAQAgAEMAB8AAgAjUQwAGgMVAE0DAQZNCAEHbjAEAAIBDAEfAQkAI1MMABoEFwBNBAMGI3QLABwFDQBNBQQGTQQDB24wBAACAwwAHwAJACNiDABuMAQAgQIMASNyDAAjcw0AGgQCAE0EAwZNAwIGbjAEABACDgAAAAAAAAAAAAEAAAAAAAAAAQAAAHwBAAACAAAABgAMAAIAAAAHAAsABjxpbml0PgAJSGlkZS5qYXZhAAFMAAZMSGlkZTsAA0xMTAAaTGRhbHZpay9hbm5vdGF0aW9uL1Rocm93czsAEUxqYXZhL2xhbmcvQ2xhc3M7ACJMamF2YS9sYW5nL0lsbGVnYWxBY2Nlc3NFeGNlcHRpb247ACFMamF2YS9sYW5nL05vU3VjaE1ldGhvZEV4Y2VwdGlvbjsAIExqYXZhL2xhbmcvTnVsbFBvaW50ZXJFeGNlcHRpb247ABJMamF2YS9sYW5nL09iamVjdDsAEkxqYXZhL2xhbmcvU3RyaW5nOwAtTGphdmEvbGFuZy9yZWZsZWN0L0ludm9jYXRpb25UYXJnZXRFeGNlcHRpb247ABpMamF2YS9sYW5nL3JlZmxlY3QvTWV0aG9kOwABVgASW0xqYXZhL2xhbmcvQ2xhc3M7ABNbTGphdmEvbGFuZy9PYmplY3Q7ABNbTGphdmEvbGFuZy9TdHJpbmc7ABdkYWx2aWsuc3lzdGVtLlZNUnVudGltZQAHZm9yTmFtZQARZ2V0RGVjbGFyZWRNZXRob2QACmdldFJ1bnRpbWUABmludm9rZQAWc2V0SGlkZGVuQXBpRXhlbXB0aW9ucwAFdmFsdWUABHdvcmsABAAHDgAGAAdKARIPARoP4QEUD2nTAAIBARgcBBgEGAgYAxgFAAACAACBgASEAwEJnAMADwAAAAAAAAABAAAAAAAAAAEAAAAaAAAAcAAAAAIAAAAOAAAA2AAAAAMAAAADAAAAEAEAAAUAAAAFAAAANAEAAAYAAAABAAAAXAEAAAMQAAABAAAAfAEAAAEgAAACAAAAhAEAAAYgAAABAAAAeAIAAAEQAAACAAAAkAIAAAIgAAAaAAAAoAIAAAMgAAACAAAAfQQAAAQgAAABAAAAkwQAAAAgAAABAAAAoQQAAAAQAAABAAAAsAQAAA==";
             byte[] bytes = Base64.decode(dex, Base64.NO_WRAP);
             File f = getCachePath();
             FileOutputStream fos = new FileOutputStream(f);
@@ -133,22 +141,22 @@ public class HideApiImpl {
         return tmp;
     }
 
-//    //https://www.androidos.net.cn/android/10.0.0_r6/xref/art/test/674-hiddenapi/src-art/Main.java
-//    private static boolean hideImplB(Method forName, Method getDeclaredMethod) {
-//        //  private static native void setWhitelistAll(boolean value);
-//        return false;
-//    }
+    //
+    // //https://www.androidos.net.cn/android/10.0.0_r6/xref/art/test/674-hiddenapi/src-art/Main.java
+    //    private static boolean hideImplB(Method forName, Method getDeclaredMethod) {
+    //        //  private static native void setWhitelistAll(boolean value);
+    //        return false;
+    //    }
 
     // Don't trust unknown caller when accessing hidden API
-//    // * Or apps can just call attachCurrentThread() to hide its
-//    //   caller in JNI and thus bypass hidden API restrictions.
-//    //   https://github.com/ChickenHook/RestrictionBypass
-//    //缺点：pthread创建线程使caller为null的方案将受限
-//    // https://android-review.googlesource.com/c/platform/art/+/1664304
-//    private static boolean restrictionBypass(Method forName, Method getDeclaredMethod) {
-//
-//        return false;
-//    }
-
+    //    // * Or apps can just call attachCurrentThread() to hide its
+    //    //   caller in JNI and thus bypass hidden API restrictions.
+    //    //   https://github.com/ChickenHook/RestrictionBypass
+    //    //缺点：pthread创建线程使caller为null的方案将受限
+    //    // https://android-review.googlesource.com/c/platform/art/+/1664304
+    //    private static boolean restrictionBypass(Method forName, Method getDeclaredMethod) {
+    //
+    //        return false;
+    //    }
 
 }
