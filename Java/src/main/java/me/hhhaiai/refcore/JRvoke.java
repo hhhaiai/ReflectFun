@@ -4,11 +4,13 @@ import java.lang.reflect.Method;
 
 /**
  * @Copyright © 2022 sanbo Inc. All rights reserved.
- * @Description: 反射工具类. 支持：
- * 1. 反射类
- * 2. 反射类初始化
+ *
+ * @Description: 反射工具类. 支持： 1. 反射类 2. 反射类初始化
+ *
  * @Version: 1.0
+ *
  * @Create: 2022/04/114 17:59:22
+ *
  * @author: sanbo
  */
 public class JRvoke {
@@ -47,14 +49,14 @@ public class JRvoke {
         if (RefUtils.isEmpty(className)) {
             return null;
         }
-        return getIntance(getClass(className), new Class[]{}, new Object[]{});
+        return getIntance(getClass(className), new Class[] {}, new Object[] {});
     }
 
     public static Object getIntance(Class<?> clazz) {
         if (RefUtils.isNull(clazz)) {
             return null;
         }
-        return getIntance(clazz, new Class[]{}, new Object[]{});
+        return getIntance(clazz, new Class[] {}, new Object[] {});
     }
 
     public static Object getIntance(String className, Class[] types, Object[] values) {
@@ -77,13 +79,13 @@ public class JRvoke {
 
     ///////////////////////////// 方法反射///////////////////////////////////
 
-    /******************获取方法*****************/
+    /****************** 获取方法 *****************/
 
     public static Method getMethod(String className, String methodName) {
         if (RefUtils.isEmpty(className, methodName)) {
             return null;
         }
-        return getMethod(getClass(className), methodName, new Class[]{});
+        return getMethod(getClass(className), methodName, new Class[] {});
     }
 
     public static Method getMethod(String className, String methodName, Class<?>... types) {
@@ -97,7 +99,7 @@ public class JRvoke {
         if (RefUtils.isEmpty(methodName) || RefUtils.isNull(clazz)) {
             return null;
         }
-        return getMethod(clazz, methodName, new Class[]{});
+        return getMethod(clazz, methodName, new Class[] {});
     }
 
     public static Method getMethod(Class<?> clazz, String methodName, Class<?>... types) {
@@ -107,10 +109,10 @@ public class JRvoke {
         return MethodWorker.getMethodImpl(clazz, methodName, types);
     }
 
-    /******************获取方法*****************/
+    /****************** 获取方法 *****************/
     // static method
     public static Object invokeMethod(String className, String methodName) {
-        return invokeMethod(className, methodName, new Class[]{}, new Object[]{});
+        return invokeMethod(className, methodName, new Class[] {}, new Object[] {});
     }
 
     public static Object invokeMethod(String className, String methodName, Class<?>[] types, Object[] values) {
@@ -126,7 +128,7 @@ public class JRvoke {
 
     // static method or nonstatic method
     public static Object invokeMethod(Object obj, String methodName) {
-        return invokeMethod(obj, methodName, new Class[]{}, new Object[]{});
+        return invokeMethod(obj, methodName, new Class[] {}, new Object[] {});
     }
 
     public static Object invokeMethod(Object obj, String methodName, Class<?>[] types, Object[] values) {
@@ -141,7 +143,7 @@ public class JRvoke {
     }
     ///////////////////////////// 变量反射///////////////////////////////////
 
-    /******************获取变量*****************/
+    /****************** 获取变量 *****************/
 
     // support static field
     public static Object getFieldValue(String className, String fieldName) {
@@ -167,7 +169,7 @@ public class JRvoke {
         return FieldWorker.getFieldValueImpl(obj, getClass(obj), fieldName);
     }
 
-    /***********************************内部实现**********************************/
+    /*********************************** 内部实现 **********************************/
     private JRvoke() {
     }
 }

@@ -8,6 +8,7 @@ public class FieldWorker {
      * @param obj
      * @param clazz
      * @param fieldName
+     *
      * @return
      */
     public static Object getFieldValueImpl(Object obj, Class<?> clazz, String fieldName) {

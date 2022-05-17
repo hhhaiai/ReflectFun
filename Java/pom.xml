@@ -39,6 +39,8 @@
         <javadoc.skip>false</javadoc.skip>
         <!-- test  lib version -->
         <junit.version>4.12</junit.version>
+
+
     </properties>
 
 
@@ -90,15 +92,15 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
         </repository>
     </distributionManagement>
-    <!--&lt;!&ndash;        https://mvnrepository.com/artifact/com.github.netcapture/Jnt GITHUB方式提交的没有出现&ndash;&gt;-->
-    <!--&lt;!&ndash;        延迟 https://repo1.maven.org/maven2/com/github/netcapture/Jnt/&ndash;&gt;-->
-    <!--        <distributionManagement>-->
-    <!--            <repository>-->
-    <!--                <id>github</id>-->
-    <!--                <name>GitHub NetCapture Apache Maven Packages</name>-->
-    <!--                <url>https://maven.pkg.github.com/NetCapture/Jnt</url>-->
-    <!--            </repository>-->
-    <!--        </distributionManagement>-->
+    <!--&lt;!&ndash;    https://mvnrepository.com/artifact/com.github.netcapture/Jnt GITHUB方式提交的没有出现&ndash;&gt;-->
+    <!--&lt;!&ndash;    延迟 https://repo1.maven.org/maven2/com/github/netcapture/Jnt/&ndash;&gt;-->
+    <!--    <distributionManagement>-->
+    <!--        <repository>-->
+    <!--        <id>github</id>-->
+    <!--        <name>GitHub NetCapture Apache Maven Packages</name>-->
+    <!--        <url>https://maven.pkg.github.com/NetCapture/Jnt</url>-->
+    <!--        </repository>-->
+    <!--    </distributionManagement>-->
     <licenses>
         <license>
             <name>Apache 2</name>
@@ -119,6 +121,58 @@
 
     <build>
         <plugins>
+            <!--    https://code.revelc.net/formatter-maven-plugin/ -->
+            <plugin>
+                <groupId>net.revelc.code.formatter</groupId>
+                <artifactId>formatter-maven-plugin</artifactId>
+                <version>2.18.0</version>
+                <configuration>
+                    <!-- 这 3 个参数也可以使用源和目标的 maven 编译器插件属性来设置。 -->
+                    <!--  <maven.compiler.source>1.9</maven.compiler.source>-->
+                    <!--  <maven.compiler.target>1.9</maven.compiler.target>-->
+                    <compilerSource>11</compilerSource>
+                    <compilerCompliance>11</compilerCompliance>
+                    <compilerTargetPlatform>11</compilerTargetPlatform>
+                    <!--    系统独立行尾: https://code.revelc.net/formatter-maven-plugin/format-mojo.html-->
+                    <lineEnding>LF</lineEnding>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+
+                    <!--
+                    默认情况下，插件会格式化src/main/java和 src/test/java目录中的所有 java 源文件。
+                    要格式化其他位置的源文件，请使用该directories参数。
+                    -->
+                    <directories>
+                        <directory>${project.build.sourceDirectory}</directory>
+                        <directory>${project.build.directory}/generated-sources</directory>
+                    </directories>
+                    <!--       要对指定要格式化的 java 源文件进行更多控制，请使用 includes和excludes参数    -->
+                    <!--    <includes>-->
+                    <!--        <include>com/relativitas/maven/plugins/formatter/</include>-->
+                    <!--    </includes>-->
+                    <!--    <excludes>-->
+                    <!--        <exclude>com/relativitas/maven/plugins/formatter/special/</exclude>-->
+                    <!--        <exclude>**/*Test.java</exclude>-->
+                    <!--    </excludes>-->
+                </configuration>
+                <!--                <dependencies>-->
+                <!--                    <dependency>-->
+                <!--                        <groupId>com.example</groupId>-->
+                <!--                        <artifactId>build-tools</artifactId>-->
+                <!--                        <version>1.0</version>-->
+                <!--                    </dependency>-->
+                <!--                </dependencies>-->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                        <!--                        <configuration>-->
+                        <!--                            <configFile>eclipse/formatter.xml</configFile>-->
+                        <!--                        </configuration>-->
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>com.google.code.maven-replacer-plugin</groupId>
                 <artifactId>replacer</artifactId>
