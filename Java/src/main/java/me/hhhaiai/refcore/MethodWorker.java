@@ -36,7 +36,7 @@ class MethodWorker {
     public static Object invokeMethod(Object obj, Method m, Object... values) {
         if (m != null) {
             try {
-                if (RefUtils.isStatic(m)) {
+                if (RUtils.isStatic(m)) {
                     if (values != null && values.length > 0) {
                         return m.invoke(null, values);
                     } else {

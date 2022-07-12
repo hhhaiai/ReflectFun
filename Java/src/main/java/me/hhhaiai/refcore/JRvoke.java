@@ -18,7 +18,7 @@ public class JRvoke {
     ///////////////////////////// 类反射///////////////////////////////////
     public static Class<?> getClass(String className) {
         Class<?> clazz = null;
-        if (RefUtils.isEmpty(className)) {
+        if (RUtils.isEmpty(className)) {
             return clazz;
         }
         clazz = ClassWorker.forNameByName(className);
@@ -30,14 +30,14 @@ public class JRvoke {
     }
 
     public static Class<?> getClass(Object obj) {
-        if (RefUtils.isNull(obj)) {
+        if (RUtils.isNull(obj)) {
             return null;
         }
         return obj.getClass();
     }
 
     public static Class<?> getClass(String className, ClassLoader... loaders) {
-        if (RefUtils.isEmpty(className) || loaders == null || loaders.length < 1) {
+        if (RUtils.isEmpty(className) || loaders == null || loaders.length < 1) {
             return null;
         }
         return ClassWorker.forNameByloaders(className, loaders);
@@ -46,21 +46,21 @@ public class JRvoke {
     ///////////////////////////// 类实例化反射///////////////////////////////////
 
     public static Object getIntance(String className) {
-        if (RefUtils.isEmpty(className)) {
+        if (RUtils.isEmpty(className)) {
             return null;
         }
         return getIntance(getClass(className), new Class[] {}, new Object[] {});
     }
 
     public static Object getIntance(Class<?> clazz) {
-        if (RefUtils.isNull(clazz)) {
+        if (RUtils.isNull(clazz)) {
             return null;
         }
         return getIntance(clazz, new Class[] {}, new Object[] {});
     }
 
     public static Object getIntance(String className, Class[] types, Object[] values) {
-        if (RefUtils.isEmpty(className)) {
+        if (RUtils.isEmpty(className)) {
             return null;
         }
         return getIntance(getClass(className), types, values);
@@ -70,7 +70,7 @@ public class JRvoke {
     // plan b: work, wait the result.
     // now --> b
     public static Object getIntance(Class<?> clazz, Class[] types, Object[] values) {
-        if (RefUtils.isNull(clazz)) {
+        if (RUtils.isNull(clazz)) {
             return null;
         }
         return ConstructorWorker.newInstance(clazz, types, values);
@@ -82,28 +82,28 @@ public class JRvoke {
     /****************** 获取方法 *****************/
 
     public static Method getMethod(String className, String methodName) {
-        if (RefUtils.isEmpty(className, methodName)) {
+        if (RUtils.isEmpty(className, methodName)) {
             return null;
         }
         return getMethod(getClass(className), methodName, new Class[] {});
     }
 
     public static Method getMethod(String className, String methodName, Class<?>... types) {
-        if (RefUtils.isEmpty(className, methodName)) {
+        if (RUtils.isEmpty(className, methodName)) {
             return null;
         }
         return getMethod(getClass(className), methodName, types);
     }
 
     public static Method getMethod(Class<?> clazz, String methodName) {
-        if (RefUtils.isEmpty(methodName) || RefUtils.isNull(clazz)) {
+        if (RUtils.isEmpty(methodName) || RUtils.isNull(clazz)) {
             return null;
         }
         return getMethod(clazz, methodName, new Class[] {});
     }
 
     public static Method getMethod(Class<?> clazz, String methodName, Class<?>... types) {
-        if (RefUtils.isEmpty(methodName) || RefUtils.isNull(clazz)) {
+        if (RUtils.isEmpty(methodName) || RUtils.isNull(clazz)) {
             return null;
         }
         return MethodWorker.getMethodImpl(clazz, methodName, types);
@@ -116,7 +116,7 @@ public class JRvoke {
     }
 
     public static Object invokeMethod(String className, String methodName, Class<?>[] types, Object[] values) {
-        if (RefUtils.isEmpty(className, methodName)) {
+        if (RUtils.isEmpty(className, methodName)) {
             return null;
         }
         Method m = getMethod(className, methodName, types);
@@ -132,7 +132,7 @@ public class JRvoke {
     }
 
     public static Object invokeMethod(Object obj, String methodName, Class<?>[] types, Object[] values) {
-        if (RefUtils.isEmpty(methodName) || RefUtils.isNull(obj)) {
+        if (RUtils.isEmpty(methodName) || RUtils.isNull(obj)) {
             return null;
         }
         Method m = getMethod(obj.getClass(), methodName, types);
@@ -147,7 +147,7 @@ public class JRvoke {
 
     // support static field
     public static Object getFieldValue(String className, String fieldName) {
-        if (RefUtils.isEmpty(className, fieldName)) {
+        if (RUtils.isEmpty(className, fieldName)) {
             return null;
         }
         return getFieldValue(getClass(className), fieldName);
@@ -156,14 +156,14 @@ public class JRvoke {
     // support static field
     public static Object getFieldValue(Class<?> clazz, String fieldName) {
 
-        if (RefUtils.isEmpty(fieldName) || RefUtils.isNull(clazz)) {
+        if (RUtils.isEmpty(fieldName) || RUtils.isNull(clazz)) {
             return null;
         }
         return FieldWorker.getFieldValueImpl(null, clazz, fieldName);
     }
 
     public static Object getField(Object obj, String fieldName) {
-        if (RefUtils.isNull(obj) || RefUtils.isEmpty(fieldName)) {
+        if (RUtils.isNull(obj) || RUtils.isEmpty(fieldName)) {
             return null;
         }
         return FieldWorker.getFieldValueImpl(obj, getClass(obj), fieldName);

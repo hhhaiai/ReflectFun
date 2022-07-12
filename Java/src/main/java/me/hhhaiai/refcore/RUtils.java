@@ -6,16 +6,12 @@ import java.util.Comparator;
 
 /**
  * @Copyright © 2022 sanbo Inc. All rights reserved.
- *
  * @Description: TODO
- *
  * @Version: 1.0
- *
  * @Create: 2022/4/24 5:19 PM
- *
  * @author: sanbo
  */
-class RefUtils {
+class RUtils {
 
     static boolean isEmpty(CharSequence... strs) {
         if (strs == null) {
