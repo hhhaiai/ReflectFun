@@ -49,14 +49,14 @@ public class JRvoke {
         if (RUtils.isEmpty(className)) {
             return null;
         }
-        return getIntance(getClass(className), new Class[]{}, new Object[]{});
+        return getIntance(getClass(className), new Class[] {}, new Object[] {});
     }
 
     public static Object getIntance(Class<?> clazz) {
         if (RUtils.isNull(clazz)) {
             return null;
         }
-        return getIntance(clazz, new Class[]{}, new Object[]{});
+        return getIntance(clazz, new Class[] {}, new Object[] {});
     }
 
     public static Object getIntance(String className, Class[] types, Object[] values) {
@@ -85,7 +85,7 @@ public class JRvoke {
         if (RUtils.isEmpty(className, methodName)) {
             return null;
         }
-        return getMethod(getClass(className), methodName, new Class[]{});
+        return getMethod(getClass(className), methodName, new Class[] {});
     }
 
     public static Method getMethod(String className, String methodName, Class<?>... types) {
@@ -99,7 +99,7 @@ public class JRvoke {
         if (RUtils.isEmpty(methodName) || RUtils.isNull(clazz)) {
             return null;
         }
-        return getMethod(clazz, methodName, new Class[]{});
+        return getMethod(clazz, methodName, new Class[] {});
     }
 
     public static Method getMethod(Class<?> clazz, String methodName, Class<?>... types) {
@@ -111,7 +111,7 @@ public class JRvoke {
 
     /****************** 获取方法 *****************/
     public static Object invokeMethod(String className, String methodName) {
-        return invokeMethod(className, methodName, new Class[]{}, new Object[]{});
+        return invokeMethod(className, methodName, new Class[] {}, new Object[] {});
     }
 
     public static Object invokeMethod(String className, String methodName, Class<?>[] types, Object[] values) {
@@ -122,7 +122,7 @@ public class JRvoke {
     }
 
     public static Object invokeMethod(Object obj, String methodName) {
-        return invokeMethod(obj, methodName, new Class[]{}, new Object[]{});
+        return invokeMethod(obj, methodName, new Class[] {}, new Object[] {});
     }
 
     public static Object invokeMethod(Object obj, String methodName, Class<?>[] types, Object[] values) {

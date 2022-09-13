@@ -7,9 +7,13 @@ import java.util.Comparator;
 
 /**
  * @Copyright © 2022 sanbo Inc. All rights reserved.
+ *
  * @Description: TODO
+ *
  * @Version: 1.0
+ *
  * @Create: 2022/4/24 5:19 PM
+ *
  * @author: sanbo
  */
 class RUtils {
@@ -35,10 +39,12 @@ class RUtils {
         int modifiers = method.getModifiers();
         return Modifier.isFinal(modifiers);
     }
+
     static boolean isFinal(Field field) {
         int modifiers = field.getModifiers();
         return Modifier.isFinal(modifiers);
     }
+
     static boolean isPublic(Method method) {
         int modifiers = method.getModifiers();
         return Modifier.isPublic(modifiers);

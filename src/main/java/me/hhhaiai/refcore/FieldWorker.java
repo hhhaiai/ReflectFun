@@ -48,7 +48,6 @@ public class FieldWorker {
         return field;
     }
 
-
     public static boolean setFieldValueImpl(Object instance, Class<?> clazz, String fieldName, Object newValues) {
 
         try {
@@ -72,7 +71,6 @@ public class FieldWorker {
         return false;
     }
 
-
     // support android and java
     private static void setFinalFieldReadable(Field field) throws NoSuchFieldException, IllegalAccessException {
         int modify = field.getModifiers();
@@ -85,6 +83,5 @@ public class FieldWorker {
             modifiersField.setInt(field, modify & ~Modifier.FINAL);
         }
     }
-
 
 }
