@@ -12,7 +12,7 @@
         <package.method>jar</package.method>
         <package.jar.name>JReflectFun</package.jar.name>
         <package.name>me.hhhaiai.refcore</package.name>
-        <package.jar.version>1.0-SNAPSHOT</package.jar.version>
+        <package.jar.version>1.1.0</package.jar.version>
         <package.jar.description>JReflectFun is a hook lib written in Java</package.jar.description>
 
         <!-- project version file. need keep version in src dirs-->
