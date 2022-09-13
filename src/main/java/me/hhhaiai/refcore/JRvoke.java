@@ -24,7 +24,7 @@ public class JRvoke {
         clazz = ClassWorker.forNameByName(className);
         // maybe wasting some time
         if (clazz == null) {
-            return getClass(className, new JRvoke().getClass().getClassLoader());
+            return getClass(className, ClassLoader.getSystemClassLoader());
         }
         return clazz;
     }
@@ -49,14 +49,14 @@ public class JRvoke {
         if (RUtils.isEmpty(className)) {
             return null;
         }
-        return getIntance(getClass(className), new Class[] {}, new Object[] {});
+        return getIntance(getClass(className), new Class[]{}, new Object[]{});
     }
 
     public static Object getIntance(Class<?> clazz) {
         if (RUtils.isNull(clazz)) {
             return null;
         }
-        return getIntance(clazz, new Class[] {}, new Object[] {});
+        return getIntance(clazz, new Class[]{}, new Object[]{});
     }
 
     public static Object getIntance(String className, Class[] types, Object[] values) {
@@ -85,7 +85,7 @@ public class JRvoke {
         if (RUtils.isEmpty(className, methodName)) {
             return null;
         }
-        return getMethod(getClass(className), methodName, new Class[] {});
+        return getMethod(getClass(className), methodName, new Class[]{});
     }
 
     public static Method getMethod(String className, String methodName, Class<?>... types) {
@@ -99,7 +99,7 @@ public class JRvoke {
         if (RUtils.isEmpty(methodName) || RUtils.isNull(clazz)) {
             return null;
         }
-        return getMethod(clazz, methodName, new Class[] {});
+        return getMethod(clazz, methodName, new Class[]{});
     }
 
     public static Method getMethod(Class<?> clazz, String methodName, Class<?>... types) {
@@ -110,36 +110,26 @@ public class JRvoke {
     }
 
     /****************** 获取方法 *****************/
-    // static method
     public static Object invokeMethod(String className, String methodName) {
-        return invokeMethod(className, methodName, new Class[] {}, new Object[] {});
+        return invokeMethod(className, methodName, new Class[]{}, new Object[]{});
     }
 
     public static Object invokeMethod(String className, String methodName, Class<?>[] types, Object[] values) {
         if (RUtils.isEmpty(className, methodName)) {
             return null;
         }
-        Method m = getMethod(className, methodName, types);
-        if (m == null) {
-            return null;
-        }
-        return MethodWorker.invokeMethod(null, m, values);
+        return MethodWorker.invokeMethod(null, getMethod(className, methodName, types), values);
     }
 
-    // static method or nonstatic method
     public static Object invokeMethod(Object obj, String methodName) {
-        return invokeMethod(obj, methodName, new Class[] {}, new Object[] {});
+        return invokeMethod(obj, methodName, new Class[]{}, new Object[]{});
     }
 
     public static Object invokeMethod(Object obj, String methodName, Class<?>[] types, Object[] values) {
         if (RUtils.isEmpty(methodName) || RUtils.isNull(obj)) {
             return null;
         }
-        Method m = getMethod(obj.getClass(), methodName, types);
-        if (m == null) {
-            return null;
-        }
-        return MethodWorker.invokeMethod(obj, m, values);
+        return MethodWorker.invokeMethod(obj, getMethod(obj.getClass(), methodName, types), values);
     }
     ///////////////////////////// 变量反射///////////////////////////////////
 
@@ -155,7 +145,6 @@ public class JRvoke {
 
     // support static field
     public static Object getFieldValue(Class<?> clazz, String fieldName) {
-
         if (RUtils.isEmpty(fieldName) || RUtils.isNull(clazz)) {
             return null;
         }
@@ -167,6 +156,17 @@ public class JRvoke {
             return null;
         }
         return FieldWorker.getFieldValueImpl(obj, getClass(obj), fieldName);
+    }
+
+    public static boolean setFieldObject(String className, String fieldName, Object instance, Object newValues) {
+        if (RUtils.isEmpty(className, fieldName)) {
+            return false;
+        }
+        return setFieldObject(getClass(className), fieldName, instance, newValues);
+    }
+
+    public static boolean setFieldObject(Class<?> clazz, String fieldName, Object instance, Object newValues) {
+        return FieldWorker.setFieldValueImpl(instance, clazz, fieldName, newValues);
     }
 
     /*********************************** 内部实现 **********************************/

@@ -1,5 +1,6 @@
 package me.hhhaiai.refcore;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Comparator;
@@ -34,7 +35,10 @@ class RUtils {
         int modifiers = method.getModifiers();
         return Modifier.isFinal(modifiers);
     }
-
+    static boolean isFinal(Field field) {
+        int modifiers = field.getModifiers();
+        return Modifier.isFinal(modifiers);
+    }
     static boolean isPublic(Method method) {
         int modifiers = method.getModifiers();
         return Modifier.isPublic(modifiers);
